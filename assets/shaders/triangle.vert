@@ -14,7 +14,34 @@ out Varyings {
 // Each vertex "v" should be transformed to be "scale * v + translation".
 // The default value for "translation" is (0.0, 0.0) and for "scale" is (1.0, 1.0).
 
-//TODO: (Req 1) Finish this shader
+uniform vec2 scale = vec2(1.0, 1.0);
+uniform vec2 translation = vec2(0.0, 0.0);
+
+//TODO: (Req 1) Finish this shader [DONE]
 
 void main(){
+    // Setting triangle initial position (we can send it as attributes from cpp code later)
+    const vec3 positions[3] = vec3[3](
+        vec3(-0.5, -0.5, 0.0),
+        vec3( 0.5, -0.5, 0.0),
+        vec3( 0.0,  0.5, 0.0)
+    );
+
+    // Getting the position of each vertex as gl_VertexID indicates the current vertex
+    vec3 position = positions[gl_VertexID];
+
+    position.xy *= scale;
+    position.xy += translation;
+
+    gl_Position = vec4(position, 1.0);
+    
+    // Setting colors to send it to frag_shader
+    const vec3 colors[3] = vec3[3](
+        vec3(1.0, 0.0, 0.0),
+        vec3(0.0, 1.0, 0.0),
+        vec3(0.0, 0.0, 1.0)
+    );
+
+    // Sending color vector for each vertex
+    vs_out.color = colors[gl_VertexID];
 }

@@ -45,6 +45,7 @@ namespace our {
 
             // We will cache the location in a map so that reusing it would not take as 
             // much time
+            
             auto it = uniform_location_cache.find(name);    // searches for the uniform in our cache
             if(it != uniform_location_cache.end())
             {
