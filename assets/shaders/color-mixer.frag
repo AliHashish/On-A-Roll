@@ -22,10 +22,9 @@ uniform vec4 red = vec4(1.0,0.0,0.0,0.0);
 uniform vec4 green = vec4(0.0,1.0,0.0,0.0);
 uniform vec4 blue = vec4(0.0,0.0,1.0,0.0);
 
-//TODO: (Req 1) Finish this shader and apply the channel mixing using the "dot" function.
+//TODO: (Req 1) Finish this shader and apply the channel mixing using the "dot" function [DONE].
 
 void main(){
-
     frag_color.r = dot(red.rgb, fs_in.color)+red.a;
     frag_color.g = dot(green.rgb, fs_in.color)+green.a;
     frag_color.b = dot(blue.rgb, fs_in.color)+blue.a;
