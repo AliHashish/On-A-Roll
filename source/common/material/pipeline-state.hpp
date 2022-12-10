@@ -3,6 +3,7 @@
 #include <glad/gl.h>
 #include <glm/vec4.hpp>
 #include <json/json.hpp>
+// #include <iostream>
 
 namespace our {
     // There are some options in the render pipeline that we cannot control via shaders
@@ -42,6 +43,45 @@ namespace our {
         // For example, if faceCulling.enabled is true, you should call glEnable(GL_CULL_FACE), otherwise, you should call glDisable(GL_CULL_FACE)
         void setup() const {
             //TODO: (Req 4) Write this function
+            // std::cerr << "\n\n\n\n\nTESTING THIS FUNCTION\n\n\n\n";
+            
+            if(faceCulling.enabled)     // Checking whether faceCulling is enabled or not
+            {
+                glEnable(GL_CULL_FACE);                 // enabling faceCulling
+                glCullFace(faceCulling.culledFace);     // Choosing which face to cull
+                glFrontFace(faceCulling.frontFace);     // which direction is the front face
+            }
+            else
+            {
+                glDisable(GL_CULL_FACE);                // disabling faceCulling
+            }
+
+            if(depthTesting.enabled)    // Checking whether depthTesting is enabled or not
+            {
+                glEnable(GL_DEPTH_TEST);                // enabling depth testing
+                glDepthFunc(depthTesting.function);     // choosing the function that determines what to draw based on depth
+            }
+            else
+            {
+                glDisable(GL_DEPTH_TEST);               // disabling depth test
+            }
+
+            if(blending.enabled)        // Checking whether blending is enabled or not
+            {
+                glEnable(GL_BLEND);                     // enabling blending
+                // Configuring blending options
+                glBlendEquation(blending.equation);
+                glBlendFunc(blending.sourceFactor, blending.destinationFactor);
+                glBlendColor(blending.constantColor.r, blending.constantColor.g, blending.constantColor.b, blending.constantColor.a);
+            }
+            else
+            {
+                glDisable(GL_BLEND);                    // disabling blending
+            }
+
+            glColorMask(colorMask.r, colorMask.g, colorMask.b, colorMask.a);
+            glDepthMask(depthMask);
+
         }
 
         // Given a json object, this function deserializes a PipelineState structure
