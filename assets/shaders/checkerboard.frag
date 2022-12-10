@@ -15,10 +15,18 @@ void main(){
     // Obtain the relative position according to the size
     vec2 pos = floor(gl_FragCoord.xy / size);
     
-    // If position (x,y) are even or odd both of them, then they will have the same color
-    if((mod(pos.x,2.0)==0.0 && mod(pos.y,2.0)==0.0) || (mod(pos.x,2.0)!=0.0 && mod(pos.y,2.0)!=0.0)){
+    if(mod(pos.x+pos.y,2.0) == 0.0){
         frag_color=vec4(colors[0],1.0);
     }else{
         frag_color=vec4(colors[1],1.0);
     }
+    //=================================================
+    //==============ANOTHER METHOD=====================
+    // If position (x,y) are even or odd both of them, then they will have the same color
+    // if((mod(pos.x,2.0)==0.0 && mod(pos.y,2.0)==0.0) || (mod(pos.x,2.0)!=0.0 && mod(pos.y,2.0)!=0.0)){
+    //     frag_color=vec4(colors[0],1.0);
+    // }else{
+    //     frag_color=vec4(colors[1],1.0);
+    // }
+    //=================================================
 }
