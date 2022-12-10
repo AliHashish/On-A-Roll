@@ -45,7 +45,6 @@ namespace our {
 
             // We will cache the location in a map so that reusing it would not take as 
             // much time
-            
             auto it = uniform_location_cache.find(name);    // searches for the uniform in our cache
             if(it != uniform_location_cache.end())
             {
@@ -95,8 +94,8 @@ namespace our {
 
         void set(const std::string &uniform, glm::mat4 matrix) {
             //TODO: (Req 1) Send the given matrix 4x4 value to the given uniform    [DONE] 
-            GLboolean transpose = false;
-            glUniformMatrix4fv(getUniformLocation(uniform), 1, transpose, glm::value_ptr(matrix));
+            // GLboolean transpose = false;
+            glUniformMatrix4fv(getUniformLocation(uniform), 1, false, glm::value_ptr(matrix));
         }
 
         //TODO: (Req 1) Delete the copy constructor and assignment operator.        [DONE]
