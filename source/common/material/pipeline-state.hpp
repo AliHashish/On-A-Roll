@@ -44,7 +44,6 @@ namespace our {
         void setup() const {
             //TODO: (Req 4) Write this function
             // std::cerr << "\n\n\n\n\nTESTING THIS FUNCTION\n\n\n\n";
-            
             if(faceCulling.enabled)     // Checking whether faceCulling is enabled or not
             {
                 glEnable(GL_CULL_FACE);                 // enabling faceCulling
