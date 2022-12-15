@@ -26,6 +26,7 @@ int main(int argc, char** argv) {
 
     std::string config_path = args.get<std::string>("c", "config/entity-test/test-0.jsonc");
 
+
     // run_for_frames is how many frames to run the application before automatically closing
     // This is useful for testing multiple configurations in a batch
     // Default: 0 where the application runs indefinitely until manually closed

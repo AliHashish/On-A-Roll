@@ -10,8 +10,8 @@ namespace our
     void Material::setup() const
     {
         // TODO: (Req 7) Write this function [DONE]
-        shader->use();
-        pipelineState.setup();
+        pipelineState.setup();      // Calling the pipeline setup
+        shader->use();              // Setting which shader to use
     }
 
     // This function read the material data from a json object
@@ -33,8 +33,8 @@ namespace our
     void TintedMaterial::setup() const
     {
         // TODO: (Req 7) Write this function [DONE]
-        Material::setup();
-        shader->set("tint", tint);
+        Material::setup();          // Calling material setup
+        shader->set("tint", tint);  // setting the uniform value of tint
     }
 
     // This function read the material data from a json object
@@ -51,12 +51,12 @@ namespace our
     // Then it should bind the texture and sampler to a texture unit and send the unit number to the uniform variable "tex"
     void TexturedMaterial::setup() const
     {
-        // TODO: (Req 7) Write this function [DONE]
-        Material::setup();
-        shader->set("alphaThreshold", alphaThreshold);
-        texture->bind();
-        sampler->bind(texture->getOpenGLName());
-        shader->set("tex", texture->getOpenGLName());
+        // TODO: (Req 7) Write this function [DONE][bs msh sh8al still]
+        TintedMaterial::setup();        // Calling the tinted material setup
+        shader->set("alphaThreshold", alphaThreshold);      // setting the alphathreshold uniform value
+        texture->bind();                // binding the texture
+        sampler->bind(0);               // binding the sampler to unit 0
+        shader->set("tex", 0);          // setting the tex uniform value
     }
 
     // This function read the material data from a json object
