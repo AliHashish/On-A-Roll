@@ -6,6 +6,7 @@
 #include <iterator>
 #include <string>
 #include <glm/glm.hpp>
+#include <iostream>
 
 namespace our {
 
@@ -33,9 +34,13 @@ namespace our {
         template<typename T>
         T* addComponent(){
             static_assert(std::is_base_of<Component, T>::value, "T must inherit from Component");
+            //  std::cerr<<"\n\n\n HELLOO \n\n\n";
+            Component* newComponent = new T();
+            newComponent->owner = this;
+            this->components.push_back(newComponent);
             //TODO: (Req 8) Create an component of type T, set its "owner" to be this entity, then push it into the component's list
             // Don't forget to return a pointer to the new component
-            return nullptr;
+            return  dynamic_cast<T*>(newComponent);
         }
 
         // This template method searhes for a component of type T and returns a pointer to it
@@ -44,6 +49,13 @@ namespace our {
         T* getComponent(){
             //TODO: (Req 8) Go through the components list and find the first component that can be dynamically cast to "T*".
             // Return the component you found, or return null of nothing was found.
+            // std::cerr<<"\n\n\n HELOO \n\n\n";
+            for (auto it = components.begin(); it != components.end(); it++) {
+                T* component = dynamic_cast<T*>(*it);
+                if (component != NULL) {
+                    return component;
+                }
+            }
             return nullptr;
         }
 
@@ -52,6 +64,7 @@ namespace our {
         template<typename T>
         T* getComponent(size_t index){
             auto it = components.begin();
+            // std::cerr<<"\n\n\n HELOO \n\n\n";
             std::advance(it, index);
             if(it != components.end())
                 return dynamic_cast<T*>(*it);
@@ -63,11 +76,22 @@ namespace our {
         void deleteComponent(){
             //TODO: (Req 8) Go through the components list and find the first component that can be dynamically cast to "T*".
             // If found, delete the found component and remove it from the components list
+            // std::cerr<<"\n\n\n HELOO \n\n\n";
+            for (auto it = components.begin(); it != components.end(); it++) {
+                T* component = dynamic_cast<T*>(*it);
+                if (component != NULL) {
+                    delete *it;
+                    components.erase(it);
+                    return;
+                }
+            }
         }
 
         // This template method searhes for a component of type T and deletes it
         void deleteComponent(size_t index){
             auto it = components.begin();
+            // std::cerr<<"\n\n\n HELOO \n\n\n";
+
             std::advance(it, index);
             if(it != components.end()) {
                 delete *it;
@@ -80,11 +104,25 @@ namespace our {
         void deleteComponent(T const* component){
             //TODO: (Req 8) Go through the components list and find the given component "component".
             // If found, delete the found component and remove it from the components list
+            Component* c = component;
+            // std::cerr<<"\n\n\n HELOO \n\n\n";
+            for (auto it = components.begin(); it != components.end(); it++) {
+                if(c == it){
+                    delete *it;
+                    components.erase(it);
+                }
+            }
+
         }
 
         // Since the entity owns its components, they should be deleted alongside the entity
         ~Entity(){
             //TODO: (Req 8) Delete all the components in "components".
+            std::cerr<<"\n\n\n HELOO \n\n\n";
+            for (auto it = components.begin(); it != components.end(); it++) {
+                    delete *it;
+                    components.erase(it);
+            }
         }
 
         // Entities should not be copyable

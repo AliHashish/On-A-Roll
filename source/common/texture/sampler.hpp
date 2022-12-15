@@ -40,7 +40,6 @@ namespace our
         static void unbind(GLuint textureUnit)
         {
             // TODO: (Req 6) Complete this function [DONE]
-            glActiveTexture(GL_TEXTURE0 + textureUnit); 
             glBindSampler(textureUnit, 0);
         }
 

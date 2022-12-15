@@ -29,4 +29,5 @@ void main(){
     frag_color.g = dot(green.rgb, fs_in.color)+green.a;
     frag_color.b = dot(blue.rgb, fs_in.color)+blue.a;
     frag_color.a = 1.0;
+    
 }
