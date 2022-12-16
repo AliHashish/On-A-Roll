@@ -24,7 +24,7 @@ int main(int argc, char** argv) {
     // Default: "config/app.json"
 
 
-    std::string config_path = args.get<std::string>("c", "config/renderer-test/test-1.jsonc");
+    std::string config_path = args.get<std::string>("c", "config/app.jsonc");
 
 
     // run_for_frames is how many frames to run the application before automatically closing
