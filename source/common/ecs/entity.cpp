@@ -14,7 +14,7 @@ namespace our {
         //TODO: (Req 8) Write this function
         if(!this->parent)
             return this->localTransform.toMat4();
-        return this->localTransform.toMat4()*this->parent->getLocalToWorldMatrix();
+        return this->parent->getLocalToWorldMatrix()*this->localTransform.toMat4();
     }
 
     // Deserializes the entity data and components from a json object

@@ -58,39 +58,25 @@ namespace our
             // TODO: (Req 8) Remove and delete all the entities that have been marked for removal
             for (auto it = markedForRemoval.begin(); it != markedForRemoval.end(); it++)
             {
-                markedForRemoval.erase(it);
                 if (entities.find(*it) != entities.end())
                 {
                     delete *it;
                     entities.erase(it);
                 }
             }
+            markedForRemoval.clear();
         }
 
         // This deletes all entities in the world
         void clear()
         {
             // TODO: (Req 8) Delete all the entites and make sure that the containers are empty
-            // for(auto entity : entities){
-            //     delete entity;
-            // }
-            // if(!entities.empty()){
-            //     for (auto it = entities.begin(); it != entities.end(); it++)
-            //     {
-
-            //         // delete *it;
-            //         entities.erase(it);
-            //         // if (markedForRemoval.find(*it) != markedForRemoval.end())
-            //         // {
-            //         //     markedForRemoval.erase(it);
-            //         // }
-            //     }
-            // }
-            // for (auto it = markedForRemoval.begin(); it != markedForRemoval.end(); it++)
-            // {
-            //     markedForRemoval.erase(it);
-            // }
-
+            for(auto entity : entities){
+                delete entity;
+            }
+            std::cerr << "b3d clear" << std::endl;
+            entities.clear();
+            markedForRemoval.clear();
         }
 
         // Since the world owns all of its entities, they should be deleted alongside it.

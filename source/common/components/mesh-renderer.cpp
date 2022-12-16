@@ -1,5 +1,6 @@
 #include "mesh-renderer.hpp"
 #include "../asset-loader.hpp"
+#include <iostream>
 
 namespace our {
     // Receives the mesh & material from the AssetLoader by the names given in the json object
@@ -12,6 +13,9 @@ namespace our {
         // you can use write: data["key"].get<T>().
         // Look at "source/common/asset-loader.hpp" to know how to use the static class AssetLoader  
         mesh = AssetLoader<Mesh>::get(data["mesh"].get<std::string>());
+        
+        std::cerr << "\n----------------------------\n" << mesh << std::endl;
         material = AssetLoader<Material>::get(data["material"].get<std::string>());
+        std::cerr << "\n----------------------------\n" << material << std::endl;
     }
 }
