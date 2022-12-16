@@ -55,7 +55,8 @@ namespace our
         TintedMaterial::setup();        // Calling the tinted material setup
         shader->set("alphaThreshold", alphaThreshold);      // setting the alphathreshold uniform value
         texture->bind();                // binding the texture
-        sampler->bind(0);               // binding the sampler to unit 0
+        if (sampler != nullptr)
+            sampler->bind(0);
         shader->set("tex", 0);          // setting the tex uniform value
     }
 
