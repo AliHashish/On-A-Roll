@@ -35,9 +35,25 @@ namespace our {
         // - the center position which is the point (0,0,-1) but after being transformed by M
         // - the up direction which is the vector (0,1,0) but after being transformed by M
         // then you can use glm::lookAt
+<<<<<<< Updated upstream
         glm::vec3 eye = M * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
         glm::vec3 center = M * glm::vec4(0.0f, 0.0f, -1.0f, 1.0f);
         glm::vec3 up = M * glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
+=======
+
+        glm::vec3 eye = M * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+        glm::vec3 center = M * glm::vec4(0.0f, 0.0f, -1.0f, 1.0f);
+        glm::vec3 up = M * glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
+        //To use glm::lookat, we need to use vec3.
+        //the given data are in terms of vec3 as well.
+        //However, to use the data properly we need to transform them to the world space. So we multiply it by M.
+        //The problem is that M is a mat4 and the points are a vec3. So we add either 1 or 0 to the end of the vec3 to make it a vec4.
+        //We studied that a 3D point is a vec4 with the last element being 1.
+        //We also studied that a 3D vector is a vec4 with the last element being 0.
+        // So we appended these data to their correspondings to be able to multiply them by M.
+        //But the result of M * vec4 is a vec4.
+        //So we use a vec3 in the result to store the first 3 elements of the vec4 and neglect the last element.
+>>>>>>> Stashed changes
 
         return glm::lookAt(eye, center, up);
     }
