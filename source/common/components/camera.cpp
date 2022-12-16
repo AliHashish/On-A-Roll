@@ -23,7 +23,7 @@ namespace our {
     glm::mat4 CameraComponent::getViewMatrix() const {
         auto owner = getOwner();
         auto M = owner->getLocalToWorldMatrix();
-        //TODO: (Req 8) Complete this function
+        //TODO: (Req 8) Complete this function [DONE]
         //HINT:
         // In the camera space:
         // - eye is the origin (0,0,0)
@@ -35,15 +35,12 @@ namespace our {
         // - the center position which is the point (0,0,-1) but after being transformed by M
         // - the up direction which is the vector (0,1,0) but after being transformed by M
         // then you can use glm::lookAt
-<<<<<<< Updated upstream
-        glm::vec3 eye = M * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-        glm::vec3 center = M * glm::vec4(0.0f, 0.0f, -1.0f, 1.0f);
-        glm::vec3 up = M * glm::vec4(0.0f, 1.0f, 0.0f, 1.0f);
-=======
 
         glm::vec3 eye = M * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
         glm::vec3 center = M * glm::vec4(0.0f, 0.0f, -1.0f, 1.0f);
         glm::vec3 up = M * glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
+
+        return glm::lookAt(eye, center, up);
         //To use glm::lookat, we need to use vec3.
         //the given data are in terms of vec3 as well.
         //However, to use the data properly we need to transform them to the world space. So we multiply it by M.
@@ -53,15 +50,12 @@ namespace our {
         // So we appended these data to their correspondings to be able to multiply them by M.
         //But the result of M * vec4 is a vec4.
         //So we use a vec3 in the result to store the first 3 elements of the vec4 and neglect the last element.
->>>>>>> Stashed changes
-
-        return glm::lookAt(eye, center, up);
     }
 
     // Creates and returns the camera projection matrix
     // "viewportSize" is used to compute the aspect ratio
     glm::mat4 CameraComponent::getProjectionMatrix(glm::ivec2 viewportSize) const {
-        //TODO: (Req 8) Wrtie this function
+        //TODO: (Req 8) Wrtie this function [DONE]
         // NOTE: The function glm::ortho can be used to create the orthographic projection matrix
         // It takes left, right, bottom, top. Bottom is -orthoHeight/2 and Top is orthoHeight/2.
         // Left and Right are the same but after being multiplied by the aspect ratio

@@ -15,14 +15,14 @@ namespace our {
         Component* component = nullptr;
         //TODO: (Req 8) Add an option to deserialize a "MeshRendererComponent" to the following if-else statement [DONE]
         if(type == CameraComponent::getID()){
-            std::cerr << "TYPE = Camera" << std::endl;
+            //std::cerr << "TYPE = Camera" << std::endl;
             component = entity->addComponent<CameraComponent>();
         } else if (type == FreeCameraControllerComponent::getID()) {
             component = entity->addComponent<FreeCameraControllerComponent>();
         } else if (type == MovementComponent::getID()) {
             component = entity->addComponent<MovementComponent>();
         } else if (type == MeshRendererComponent::getID()) {
-            std::cerr << "TYPE = Mesh" << std::endl;
+            //std::cerr << "TYPE = Mesh" << std::endl;
             component = entity->addComponent<MeshRendererComponent>();
         }
         if(component) component->deserialize(data);

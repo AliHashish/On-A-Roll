@@ -26,8 +26,8 @@ namespace our
         // deleted when "deleteMarkedEntities" is called.
         Entity *add()
         {
-            // TODO: (Req 8) Create a new entity, set its world member variable to this,
-            //  and don't forget to insert it in the suitable container.
+            // TODO: (Req 8) Create a new entity, set its world member variable to this,    [DONE]
+            //  and don't forget to insert it in the suitable container. 
             Entity *newEntity = new Entity();
             newEntity->world = this;
             entities.insert(newEntity);
@@ -44,7 +44,7 @@ namespace our
         // The elements in the "markedForRemoval" set will be removed and deleted when "deleteMarkedEntities" is called.
         void markForRemoval(Entity *entity)
         {
-            // TODO: (Req 8) If the entity is in this world, add it to the "markedForRemoval" set.
+            // TODO: (Req 8) If the entity is in this world, add it to the "markedForRemoval" set.  [DONE]
             if (entities.find(entity) != entities.end())
             {
                 markedForRemoval.insert(entity);
@@ -55,7 +55,7 @@ namespace our
         // Then each of these elements are deleted.
         void deleteMarkedEntities()
         {
-            // TODO: (Req 8) Remove and delete all the entities that have been marked for removal
+            // TODO: (Req 8) Remove and delete all the entities that have been marked for removal. [DONE]
             for (auto it = markedForRemoval.begin(); it != markedForRemoval.end(); it++)
             {
                 if (entities.find(*it) != entities.end())
@@ -70,11 +70,11 @@ namespace our
         // This deletes all entities in the world
         void clear()
         {
-            // TODO: (Req 8) Delete all the entites and make sure that the containers are empty
+            // TODO: (Req 8) Delete all the entites and make sure that the containers are empty     [DONE]
             for(auto entity : entities){
                 delete entity;
             }
-            std::cerr << "b3d clear" << std::endl;
+            //std::cerr << "b3d clear" << std::endl;
             entities.clear();
             markedForRemoval.clear();
         }
