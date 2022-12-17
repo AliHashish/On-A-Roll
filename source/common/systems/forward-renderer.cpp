@@ -1,6 +1,8 @@
 #include "forward-renderer.hpp"
 #include "../mesh/mesh-utils.hpp"
 #include "../texture/texture-utils.hpp"
+#include <iostream>
+
 
 namespace our {
 
@@ -55,18 +57,32 @@ namespace our {
         if(config.contains("postprocess")){
             //TODO: (Req 11) Create a framebuffer
             glGenFramebuffers(1, &postprocessFrameBuffer);
+            auto fboStatus2 = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+            if (fboStatus2 != GL_FRAMEBUFFER_COMPLETE)
+                std::cout << "\n\n\n\n\n\nFramebuffer0 not complete: " << fboStatus2 << "\n\n\n\n\n"<<std::endl;
+            glBindFramebuffer(GL_DRAW_FRAMEBUFFER, postprocessFrameBuffer);
 
             //TODO: (Req 11) Create a color and a depth texture and attach them to the framebuffer
             // Hints: The color format can be (Red, Green, Blue and Alpha components with 8 bits for each channel).
             // The depth format can be (Depth component with 24 bits).
-
-            colorTarget = our::texture_utils::empty(GL_RGBA8, windowSize);
-            depthTarget = our::texture_utils::empty(GL_DEPTH_COMPONENT24, windowSize);
-
-            glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, colorTarget->getOpenGLName(), 0);
-            glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthTarget->getOpenGLName(), 0);
             
+            colorTarget = our::texture_utils::empty(GL_RGBA8, windowSize);
+            // glTexImage2D(GL_TEXTURE_2D, 0, format, size.x, size.y, 0, format, GL_UNSIGNED_BYTE, nullptr);
+            depthTarget = our::texture_utils::empty(GL_DEPTH_COMPONENT24, windowSize);
+            
+            std::cerr << "\n\n\n\n\nColor buffer: " << colorTarget << std::endl;        // mtel3oosh zero, fa 3azama
+            std::cerr << "\n\n\n\n\nDepth buffer: " << depthTarget << std::endl;        // mtel3oosh zero, fa 3azama
+            
+            glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, colorTarget->getOpenGLName(), 0);       // e7na hena bn3adel 3l default frame buffer
+            glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthTarget->getOpenGLName(), 0);        // fa dh byedy error
+            // glTexStorage2D(GL_TEXTURE_2D, rt_levels, GL_RGBA8, rt_size.x, rt_size.y);
+            // glTexImage2D(GL_TEXTURE_2D, 0, format, size.x, size.y, 0, format, GL_UNSIGNED_BYTE, nullptr);
             //TODO: (Req 11) Unbind the framebuffer just to be safe
+            
+            // glBindFramebuffer(GL_DRAW_FRAMEBUFFER, postprocessFrameBuffer);
+            auto fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+            if (fboStatus != GL_FRAMEBUFFER_COMPLETE)
+                std::cout << "\n\n\n\n\n\nFramebuffer1 not complete: " << fboStatus << "\n\n\n\n\n"<<std::endl;
             glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 
             // Create a vertex array to use for drawing the texture
@@ -174,8 +190,14 @@ namespace our {
         // If there is a postprocess material, bind the framebuffer
         if(postprocessMaterial){
             //TODO: (Req 11) bind the framebuffer
-            // glBindFramebuffer(GL_DRAW_FRAMEBUFFER, postprocessFrameBuffer);
             
+            auto fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+            if (fboStatus != GL_FRAMEBUFFER_COMPLETE)
+                std::cout << "\n\n\n\n\n\nFramebuffer not complete: " << fboStatus << "\n\n\n\n\n"<<std::endl;
+            else
+            {
+                glBindFramebuffer(GL_DRAW_FRAMEBUFFER, postprocessFrameBuffer);
+            }
         }
 
         //TODO: (Req 9) Clear the color and depth buffers   [DONE]
@@ -229,14 +251,20 @@ namespace our {
         // If there is a postprocess material, apply postprocessing
         if(postprocessMaterial){
             //TODO: (Req 11) Return to the default framebuffer
+            auto fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+            if (fboStatus != GL_FRAMEBUFFER_COMPLETE)
+                std::cout << "\n\n\n\n\n\nFramebuffer3 not complete: " << fboStatus << "\n\n\n\n\n"<<std::endl;
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
             
             //TODO: (Req 11) Setup the postprocess material and draw the fullscreen triangle
             postprocessMaterial->setup();
-
+            
+            // draw the fullscreen triangle
             glBindVertexArray(postProcessVertexArray);
-            // glDrawArrays(GL_TRIANGLES, 0, 3);
+            glDrawArrays(GL_TRIANGLES, 0, 3);
             glBindVertexArray(0);
+
+            
             
         }
     }

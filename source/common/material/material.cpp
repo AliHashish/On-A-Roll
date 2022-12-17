@@ -54,7 +54,8 @@ namespace our
         // TODO: (Req 7) Write this function [DONE][bs msh sh8al still]
         TintedMaterial::setup();        // Calling the tinted material setup
         shader->set("alphaThreshold", alphaThreshold);      // setting the alphathreshold uniform value
-        texture->bind();                // binding the texture
+        if(texture != nullptr)
+            texture->bind();                // binding the texture
         if (sampler != nullptr)
             sampler->bind(0);
         shader->set("tex", 0);          // setting the tex uniform value
