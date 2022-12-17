@@ -14,13 +14,13 @@ our::Texture2D* our::texture_utils::empty(GLenum format, glm::ivec2 size){
     //Note: this is not necessary since:
     //- Alignment is 4 by default
     //- Alignment of 1 or 2 will still work correctly but 8 may cause problems
-    // glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
     //Send data to texture
     //NOTE: the internal format is set to GL_RGBA8 so every pixel contains 4 bytes, one for each channel
     // glTexStorage2D(GL_TEXTURE_2D, 0, format, size.x, size.y);
     glTexImage2D(GL_TEXTURE_2D, 0, format, size.x, size.y, 0, format, GL_UNSIGNED_BYTE, nullptr);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     
     
     texture->unbind();
