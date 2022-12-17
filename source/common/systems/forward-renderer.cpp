@@ -55,14 +55,14 @@ namespace our {
 
         // Then we check if there is a postprocessing shader in the configuration
         if(config.contains("postprocess")){
-            //TODO: (Req 11) Create a framebuffer
+            //TODO: (Req 11) Create a framebuffer   [DONE]
             glGenFramebuffers(1, &postprocessFrameBuffer);
             auto fboStatus2 = glCheckFramebufferStatus(GL_FRAMEBUFFER);
             if (fboStatus2 != GL_FRAMEBUFFER_COMPLETE)
                 std::cout << "\n\n\n\n\n\nFramebuffer0 not complete: " << fboStatus2 << "\n\n\n\n\n"<<std::endl;
             glBindFramebuffer(GL_FRAMEBUFFER, postprocessFrameBuffer);
 
-            //TODO: (Req 11) Create a color and a depth texture and attach them to the framebuffer
+            //TODO: (Req 11) Create a color and a depth texture and attach them to the framebuffer  [DONE]
             // Hints: The color format can be (Red, Green, Blue and Alpha components with 8 bits for each channel).
             // The depth format can be (Depth component with 24 bits).
             
@@ -77,7 +77,7 @@ namespace our {
             glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthTarget->getOpenGLName(), 0);        // fa dh byedy error
             // glTexStorage2D(GL_TEXTURE_2D, rt_levels, GL_RGBA8, rt_size.x, rt_size.y);
             // glTexImage2D(GL_TEXTURE_2D, 0, format, size.x, size.y, 0, format, GL_UNSIGNED_BYTE, nullptr);
-            //TODO: (Req 11) Unbind the framebuffer just to be safe
+            //TODO: (Req 11) Unbind the framebuffer just to be safe [DONE]
             
             // glBindFramebuffer(GL_DRAW_FRAMEBUFFER, postprocessFrameBuffer);
             auto fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
@@ -189,7 +189,7 @@ namespace our {
 
         // If there is a postprocess material, bind the framebuffer
         if(postprocessMaterial){
-            //TODO: (Req 11) bind the framebuffer
+            //TODO: (Req 11) bind the framebuffer   [DONE]
             
             auto fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
             if (fboStatus != GL_FRAMEBUFFER_COMPLETE)
@@ -204,7 +204,7 @@ namespace our {
         glClear(GL_COLOR_BUFFER_BIT);
         glClear(GL_DEPTH_BUFFER_BIT);
         
-        //TODO: (Req 9) Draw all the opaque commands
+        //TODO: (Req 9) Draw all the opaque commands    [DONE]
         // Don't forget to set the "transform" uniform to be equal the model-view-projection matrix for each render command
         for(auto command : opaqueCommands){
             command.material->setup();
@@ -240,7 +240,7 @@ namespace our {
             skySphere->draw();
             
         }
-        //TODO: (Req 9) Draw all the transparent commands
+        //TODO: (Req 9) Draw all the transparent commands   [DONE]
         // Don't forget to set the "transform" uniform to be equal the model-view-projection matrix for each render command
         for (auto command : transparentCommands) {
             command.material->setup();
@@ -250,13 +250,13 @@ namespace our {
 
         // If there is a postprocess material, apply postprocessing
         if(postprocessMaterial){
-            //TODO: (Req 11) Return to the default framebuffer
+            //TODO: (Req 11) Return to the default framebuffer  [DONE]
             auto fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
             if (fboStatus != GL_FRAMEBUFFER_COMPLETE)
                 std::cout << "\n\n\n\n\n\nFramebuffer3 not complete: " << fboStatus << "\n\n\n\n\n"<<std::endl;
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
             
-            //TODO: (Req 11) Setup the postprocess material and draw the fullscreen triangle
+            //TODO: (Req 11) Setup the postprocess material and draw the fullscreen triangle    [DONE]
             postprocessMaterial->setup();
             
             // draw the fullscreen triangle

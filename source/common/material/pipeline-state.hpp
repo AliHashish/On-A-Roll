@@ -42,7 +42,7 @@ namespace our {
         // This function should set the OpenGL options to the values specified by this structure
         // For example, if faceCulling.enabled is true, you should call glEnable(GL_CULL_FACE), otherwise, you should call glDisable(GL_CULL_FACE)
         void setup() const {
-            //TODO: (Req 4) Write this function
+            //TODO: (Req 4) Write this function [DONE]
             // std::cerr << "\n\n\n\n\nTESTING THIS FUNCTION\n\n\n\n";
             if(faceCulling.enabled)     // Checking whether faceCulling is enabled or not
             {

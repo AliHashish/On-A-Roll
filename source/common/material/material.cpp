@@ -51,7 +51,7 @@ namespace our
     // Then it should bind the texture and sampler to a texture unit and send the unit number to the uniform variable "tex"
     void TexturedMaterial::setup() const
     {
-        // TODO: (Req 7) Write this function [DONE][bs msh sh8al still]
+        // TODO: (Req 7) Write this function [DONE]
         TintedMaterial::setup();        // Calling the tinted material setup
         shader->set("alphaThreshold", alphaThreshold);      // setting the alphathreshold uniform value
         if(texture != nullptr)
