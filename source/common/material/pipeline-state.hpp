@@ -78,8 +78,8 @@ namespace our {
                 glDisable(GL_BLEND);                    // disabling blending
             }
 
-            glColorMask(colorMask.r, colorMask.g, colorMask.b, colorMask.a);
-            glDepthMask(depthMask);
+            //glColorMask(colorMask.r, colorMask.g, colorMask.b, colorMask.a); //
+            //glDepthMask(depthMask);
 
         }
 

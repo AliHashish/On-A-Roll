@@ -10,8 +10,8 @@ namespace our
     void Material::setup() const
     {
         // TODO: (Req 7) Write this function [DONE]
-        pipelineState.setup();      // Calling the pipeline setup
-        shader->use();              // Setting which shader to use
+        pipelineState.setup(); // Calling the pipeline setup
+        shader->use();         // Setting which shader to use
     }
 
     // This function read the material data from a json object
@@ -39,8 +39,8 @@ namespace our
     void TintedMaterial::setup() const
     {
         // TODO: (Req 7) Write this function [DONE]
-        Material::setup();          // Calling material setup
-        shader->set("tint", tint);  // setting the uniform value of tint
+        Material::setup();         // Calling material setup
+        shader->set("tint", tint); // setting the uniform value of tint
     }
 
     // This function read the material data from a json object
@@ -58,13 +58,13 @@ namespace our
     void TexturedMaterial::setup() const
     {
         // TODO: (Req 7) Write this function [DONE]
-        TintedMaterial::setup();        // Calling the tinted material setup
-        shader->set("alphaThreshold", alphaThreshold);      // setting the alphathreshold uniform value
-        if(texture != nullptr)
-            texture->bind();                // binding the texture
+        TintedMaterial::setup();                       // Calling the tinted material setup
+        shader->set("alphaThreshold", alphaThreshold); // setting the alphathreshold uniform value
+        if (texture != nullptr)
+            texture->bind(); // binding the texture
         if (sampler != nullptr)
             sampler->bind(0);
-        shader->set("tex", 0);          // setting the tex uniform value
+        shader->set("tex", 0); // setting the tex uniform value
     }
 
     // This function read the material data from a json object
