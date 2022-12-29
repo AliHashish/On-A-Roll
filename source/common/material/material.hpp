@@ -20,9 +20,13 @@ namespace our {
     class Material {
     public:
         // Light variables
-        glm::vec3 diffuse, specular, ambient;
-        float shininess;
-        LightComponent* light;
+        glm::vec3 diffuse = {0,0,0};
+        glm::vec3 specular = {0,0,0};
+        glm::vec3 ambient = {0,0,0};
+        // glm::vec4 color = {1, 1, 1, 1};
+
+        float shininess = 1.0f;
+        // LightComponent* light;
 
 
         PipelineState pipelineState;

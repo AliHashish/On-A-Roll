@@ -2,7 +2,7 @@
 
 #include "../ecs/component.hpp"
 #include "../mesh/mesh.hpp"
-#include "../material/material.hpp"
+// #include "../material/material.hpp"
 #include "../asset-loader.hpp"
 
 
