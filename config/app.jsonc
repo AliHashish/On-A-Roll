@@ -2,7 +2,7 @@
     "start-scene": "menu",
     "window":
     {
-        "title":"Default Game Window",
+        "title":"On A Roll",
         "size":{
             "width":1280,
             "height":720
@@ -63,7 +63,7 @@
                     "shader": "textured",
                     "pipelineState": {
                         "faceCulling":{
-                            "enabled": false
+                            "enabled": true
                         },
                         "depthTesting":{
                             "enabled": true
@@ -139,35 +139,51 @@
                     }
                 ],
                 "children": [
+                    // {
+                    //     "position": [1, -1, -1],
+                    //     "rotation": [45, 45, 0],
+                    //     "scale": [0.1, 0.1, 1.0],
+                    //     "components": [
+                    //         {
+                    //             "type": "Mesh Renderer",
+                    //             "mesh": "cube",
+                    //             "material": "metal"
+                    //         }
+                    //     ]
+                    // },
                     {
-                        "position": [1, -1, -1],
-                        "rotation": [45, 45, 0],
-                        "scale": [0.1, 0.1, 1.0],
+                        "position": [1, -1, -10],
+                        "rotation": [0, 0, 45],
+                        "scale": [2, 2, 2],
                         "components": [
                             {
                                 "type": "Mesh Renderer",
-                                "mesh": "cube",
-                                "material": "metal"
+                                "mesh": "sphere",
+                                "material": "glass"
+                            },
+                            {
+                                "type": "Movement",
+                                "angularVelocity": [-90, 0, 0]
                             }
                         ]
                     }
                 ]
             },
-            {
-                "rotation": [-45, 0, 0],
-                "components": [
-                    {
-                        "type": "Mesh Renderer",
-                        "mesh": "monkey",
-                        "material": "monkey"
-                    },
-                    {
-                        "type": "Movement",
-                        "linearVelocity": [0, 0.1, 0],
-                        "angularVelocity": [0, 45, 0]
-                    }
-                ]
-            },
+            // {
+            //     "rotation": [-45, 0, 0],
+            //     "components": [
+            //         {
+            //             "type": "Mesh Renderer",
+            //             "mesh": "monkey",
+            //             "material": "monkey"
+            //         },
+            //         {
+            //             "type": "Movement",
+            //             "linearVelocity": [0, 0.1, 0],
+            //             "angularVelocity": [0, 45, 0]
+            //         }
+            //     ]
+            // },
             {
                 "position": [0, -1, 0],
                 "rotation": [-90, 0, 0],
