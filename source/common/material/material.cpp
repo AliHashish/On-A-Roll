@@ -29,7 +29,7 @@ namespace our
 
         if (data.contains("light"))       // deserializing the light object if it exists
         {
-            light.deserialize(data["light"]);
+            // light.deserialize(data["light"]);
         }
         
     }

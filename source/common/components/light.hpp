@@ -1,6 +1,10 @@
 #pragma once
 
 #include "../ecs/component.hpp"
+#include "../mesh/mesh.hpp"
+#include "../material/material.hpp"
+#include "../asset-loader.hpp"
+
 
 #include <glm/mat4x4.hpp>
 
@@ -20,12 +24,14 @@ namespace our {
     class LightComponent : public Component {
     public:
         LightType type = LightType::DIRECTIONAL;        // Default to directional light
-        glm::vec3& diffuse = {0,0,0},
-        glm::vec3& specular = {0,0,0},
-        glm::vec3& ambient = {0, 0, 0},
-        glm::vec4& color = {1, 1, 1, 1},
+        // LightType type;
+    // We also define the color & intensity of the light for each component of the Phong model (Ambient, Diffuse, Specular).
+        glm::vec3 diffuse = {0,0,0};
+        glm::vec3 specular = {0,0,0};
+        glm::vec3 ambient = {0,0,0};
+        glm::vec4 color = {1, 1, 1, 1};
 
-        float shininess = 1.0f
+        float shininess = 1.0f;
 
         // The ID of this component type is "Camera"
         static std::string getID() { return "Light"; }

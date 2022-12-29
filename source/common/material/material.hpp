@@ -22,7 +22,7 @@ namespace our {
         // Light variables
         glm::vec3 diffuse, specular, ambient;
         float shininess;
-        LightObject light;
+        LightComponent* light;
 
 
         PipelineState pipelineState;
