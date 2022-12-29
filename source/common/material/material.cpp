@@ -26,6 +26,12 @@ namespace our
         }
         shader = AssetLoader<ShaderProgram>::get(data["shader"].get<std::string>());
         transparent = data.value("transparent", false);
+
+        if (data.contains("light"))       // deserializing the light object if it exists
+        {
+            light.deserialize(data["light"]);
+        }
+        
     }
 
     // This function should call the setup of its parent and

@@ -70,11 +70,10 @@ namespace our {
             colorTarget = texture_utils::empty(GL_RGBA, windowSize);
             depthTarget = texture_utils::empty(GL_DEPTH_COMPONENT, windowSize);
             
-            //std::cerr << "\n\n\n\n\nColor buffer: " << colorTarget << std::endl;        // mtel3oosh zero, fa 3azama
-            //std::cerr << "\n\n\n\n\nDepth buffer: " << depthTarget << std::endl;        // mtel3oosh zero, fa 3azama
             
-            glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, colorTarget->getOpenGLName(), 0);       // e7na hena bn3adel 3l default frame buffer
-            glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthTarget->getOpenGLName(), 0);        // fa dh byedy error
+            glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, colorTarget->getOpenGLName(), 0);
+            glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthTarget->getOpenGLName(), 0);
+
             // glTexStorage2D(GL_TEXTURE_2D, rt_levels, GL_RGBA8, rt_size.x, rt_size.y);
             // glTexImage2D(GL_TEXTURE_2D, 0, format, size.x, size.y, 0, format, GL_UNSIGNED_BYTE, nullptr);
             //TODO: (Req 11) Unbind the framebuffer just to be safe [DONE]
@@ -169,7 +168,7 @@ namespace our {
         std::sort(transparentCommands.begin(), transparentCommands.end(), [cameraForward](const RenderCommand& first, const RenderCommand& second){
             //TODO: (Req 9) Finish this function    [DONE]
             // HINT: the following return should return true "first" should be drawn before "second". 
-            if ((first.center.z) < (second.center.z)) return true;
+            if (dot(cameraForward,first.center) > dot(cameraForward, second.center)) return true;
             return false;
         });
 

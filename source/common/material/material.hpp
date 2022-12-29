@@ -4,6 +4,7 @@
 #include "../texture/texture2d.hpp"
 #include "../texture/sampler.hpp"
 #include "../shader/shader.hpp"
+#include "../components/light.hpp"
 
 #include <glm/vec4.hpp>
 #include <json/json.hpp>
@@ -18,6 +19,12 @@ namespace our {
     // Materials that send uniforms to the shader should inherit from the is material and add the required uniforms
     class Material {
     public:
+        // Light variables
+        glm::vec3 diffuse, specular, ambient;
+        float shininess;
+        LightObject light;
+
+
         PipelineState pipelineState;
         ShaderProgram* shader;
         bool transparent;
