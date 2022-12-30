@@ -5,6 +5,7 @@
 
 #include <iostream>
 
+
 our::Texture2D* our::texture_utils::empty(GLenum format, glm::ivec2 size){
     our::Texture2D* texture = new our::Texture2D();
     //TODO: (Req 11) Finish this function to create an empty texture with the given size and format [DONE]
@@ -28,6 +29,7 @@ our::Texture2D* our::texture_utils::empty(GLenum format, glm::ivec2 size){
 }
 
 our::Texture2D* our::texture_utils::loadImage(const std::string& filename, bool generate_mipmap) {
+
     glm::ivec2 size;
     int channels;
     //Since OpenGL puts the texture origin at the bottom left while images typically has the origin at the top left,
@@ -65,4 +67,24 @@ our::Texture2D* our::texture_utils::loadImage(const std::string& filename, bool 
     stbi_image_free(pixels); //Free image data after uploading to GPU
     texture->unbind();
     return texture;
+}
+
+void our::texture_utils::singleColor(GLuint texture, ColorTex color, glm::ivec2 size){
+    //Allocate array for texture data
+    auto* data = new ColorTex[size.x * size.y];
+    //Fill array with the same color
+    std::fill_n(data, size.x * size.y, color);
+    //Bind the texture such that we upload the image data to its storage
+    glBindTexture(GL_TEXTURE_2D, texture);
+    //Set Unpack Alignment to 4-byte (it means that each row takes multiple of 4 bytes in memory)
+    //Note: this is not necessary since:
+    //- Alignment is 4 by default
+    //- Alignment of 1 or 2 will still work correctly but 8 will cause problems
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+    //Send data to texture
+    //NOTE: the internal format is set to GL_RGBA8 so every pixel contains 4 bytes, one for each channel
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, size.x, size.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+    //Generate Mipmaps after loading the texture
+    glGenerateMipmap(GL_TEXTURE_2D);
+    delete[] data;
 }

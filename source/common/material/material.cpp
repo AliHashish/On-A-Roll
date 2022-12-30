@@ -78,4 +78,26 @@ namespace our
         sampler = AssetLoader<Sampler>::get(data.value("sampler", ""));
     }
 
+    void LitMaterial::setup() const
+    {
+        TexturedMaterial::setup();
+        shader->set("alphaThreshold", alphaThreshold);
+        
+    }
+
+    //This function read the LitMaterial data from a json object
+    void LitMaterial::deserialize(const nlohmann::json &data)
+    {
+        Material::deserialize(data);
+        if (!data.is_object())
+            return;
+        alphaThreshold = data.value("alphaThreshold", 0.0f);
+        sampler = AssetLoader<Sampler>::get(data.value("sampler", ""));
+        albedoMap = AssetLoader<Texture2D>::get(data.value("albedoMap", ""));
+        specularMap = AssetLoader<Texture2D>::get(data.value("specularMap", ""));
+        roughnessMap = AssetLoader<Texture2D>::get(data.value("roughnessMap", ""));
+        emissiveMap = AssetLoader<Texture2D>::get(data.value("emissiveMap", ""));
+        aoMap = AssetLoader<Texture2D>::get(data.value("aoMap", ""));
+    }
+
 }
