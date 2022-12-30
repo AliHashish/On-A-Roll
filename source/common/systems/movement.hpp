@@ -28,7 +28,7 @@ namespace our
                 // Check if the camera component exists
                 if(camera){
                     // We will now handle 'physics collisions' through coordinates
-                    std::cout << "Camera position: " << entity->localTransform.position.x << ", " << entity->localTransform.position.y << ", " << entity->localTransform.position.z << std::endl;
+                    // std::cout << "Camera position: " << entity->localTransform.position.x << ", " << entity->localTransform.position.y << ", " << entity->localTransform.position.z << std::endl;
                     
                     // hne7tafez bl vertices (left corner, width (2*scale), height (2*scale) )
                     

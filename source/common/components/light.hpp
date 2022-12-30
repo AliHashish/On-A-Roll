@@ -24,7 +24,7 @@ namespace our {
     class LightComponent : public Component {
     public:
         LightType type = LightType::DIRECTIONAL;        // Default to directional light
-        // LightType type;
+    
     // We also define the color & intensity of the light for each component of the Phong model (Ambient, Diffuse, Specular).
         glm::vec3 diffuse = {0,0,0};
         glm::vec3 specular = {0,0,0};
@@ -38,13 +38,6 @@ namespace our {
 
         // Reads camera parameters from the given json object
         void deserialize(const nlohmann::json& data) override;
-
-        // Creates and returns the camera view matrix
-        // glm::mat4 getViewMatrix() const;
-        
-        // Creates and returns the camera projection matrix
-        // "viewportSize" is used to compute the aspect ratio
-        // glm::mat4 getProjectionMatrix(glm::ivec2 viewportSize) const;
     };
 
 }

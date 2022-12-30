@@ -206,9 +206,10 @@
                         "type": "Free Camera Controller"
                     },
                     {
-                        "type": "Light"
-                        // "linearVelocity": [0, 0.1, 0],
-                        // "angularVelocity": [0, 45, 0]
+                        "type": "Light",
+                        "lightType":"spotLight",
+                        "ambient": [0, 0.1, 0],
+                        "diffuse": [0, 3, 0]
                     }  
                 ],
                 "children": [

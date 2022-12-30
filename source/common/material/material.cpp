@@ -31,7 +31,6 @@ namespace our
         // {
         //     light->deserialize(data["light"]);
         // }
-        
     }
 
     // This function should call the setup of its parent and
@@ -80,24 +79,85 @@ namespace our
 
     void LitMaterial::setup() const
     {
-        TexturedMaterial::setup();
-        shader->set("alphaThreshold", alphaThreshold);
-        
+        glActiveTexture(GL_TEXTURE0);
+        if (texture)
+            texture->bind();
+        else
+            Texture2D::unbind();
+        if (sampler)
+            sampler->bind(0);
+        else
+            Sampler::unbind(0);
+        shader->set("tex", 0);
+
+        glActiveTexture(GL_TEXTURE1);
+        if (albedoMap)
+            albedoMap->bind();
+        else
+            Texture2D::unbind();
+        if (sampler)
+            sampler->bind(1);
+        else
+            Sampler::unbind(1);
+        shader->set("material.albedo_map", 1);
+
+        glActiveTexture(GL_TEXTURE2);
+        if (specularMap)
+            specularMap->bind();
+        else
+            Texture2D::unbind();
+        if (sampler)
+            sampler->bind(2);
+        else
+            Sampler::unbind(2);
+        shader->set("material.specular_map", 2);
+
+        glActiveTexture(GL_TEXTURE3);
+        if (roughnessMap)
+            roughnessMap->bind();
+        else
+            Texture2D::unbind();
+        if (sampler)
+            sampler->bind(3);
+        else
+            Sampler::unbind(3);
+        shader->set("material.roughness_map", 3);
+
+        glActiveTexture(GL_TEXTURE4);
+        if (emissiveMap)
+            emissiveMap->bind();
+        else
+            Texture2D::unbind();
+        if (sampler)
+            sampler->bind(4);
+        else
+            Sampler::unbind(4);
+        shader->set("material.emissive_map", 4);
+
+        glActiveTexture(GL_TEXTURE5);
+        if (aoMap)
+            aoMap->bind();
+        else
+            Texture2D::unbind();
+        if (sampler)
+            sampler->bind(5);
+        else
+            Sampler::unbind(5);
+        shader->set("material.ambient_occlusion_map", 5);
+
     }
 
-    //This function read the LitMaterial data from a json object
+    // This function read the LitMaterial data from a json object
     void LitMaterial::deserialize(const nlohmann::json &data)
     {
-        Material::deserialize(data);
+        TexturedMaterial::deserialize(data);
         if (!data.is_object())
             return;
-        alphaThreshold = data.value("alphaThreshold", 0.0f);
-        sampler = AssetLoader<Sampler>::get(data.value("sampler", ""));
-        albedoMap = AssetLoader<Texture2D>::get(data.value("albedoMap", ""));
-        specularMap = AssetLoader<Texture2D>::get(data.value("specularMap", ""));
-        roughnessMap = AssetLoader<Texture2D>::get(data.value("roughnessMap", ""));
-        emissiveMap = AssetLoader<Texture2D>::get(data.value("emissiveMap", ""));
-        aoMap = AssetLoader<Texture2D>::get(data.value("aoMap", ""));
+        albedoMap = AssetLoader<Texture2D>::get(data.value("albedoMap", "white"));
+        specularMap = AssetLoader<Texture2D>::get(data.value("specularMap", "black"));
+        roughnessMap = AssetLoader<Texture2D>::get(data.value("roughnessMap", "white"));
+        emissiveMap = AssetLoader<Texture2D>::get(data.value("emissiveMap", "black"));
+        aoMap = AssetLoader<Texture2D>::get(data.value("aoMap", "white"));
     }
 
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <unordered_set>
+#include "../components/light.hpp"
 #include "entity.hpp"
 
 namespace our
@@ -9,6 +10,7 @@ namespace our
     // This class holds a set of entities
     class World
     {
+        std::unordered_set<LightComponent*> lights;
         std::unordered_set<Entity *> entities;         // These are the entities held by this world
         std::unordered_set<Entity *> markedForRemoval; // These are the entities that are awaiting to be deleted
                                                        // when deleteMarkedEntities is called

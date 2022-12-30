@@ -37,9 +37,12 @@ namespace our {
         if(data.is_object()){
             for(auto& [name, desc] : data.items()){
                 std::string path = desc.get<std::string>();
+
                 assets[name] = texture_utils::loadImage(path);
             }
         }
+        assets["white"] = texture_utils::singleColor({255,255,255,255});
+        assets["black"] = texture_utils::singleColor({0,0,0,255});
     };
 
     // This will load all the samplers defined in "data"

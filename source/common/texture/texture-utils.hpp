@@ -16,5 +16,5 @@ namespace our::texture_utils {
     // This function loads an image and sends its data to the given Texture2D 
     Texture2D* loadImage(const std::string& filename, bool generate_mipmap = true);
 
-    void singleColor(GLuint texture, ColorTex color={255,255,255,255}, glm::ivec2 size={1,1});
+    Texture2D* singleColor(ColorTex color={255,255,255,255}, glm::ivec2 size={1,1});
 }

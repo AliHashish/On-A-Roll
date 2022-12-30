@@ -18,24 +18,13 @@ namespace our {
         // Get Shininess from JSON
         shininess = data.value("shininess", shininess);
 
-
-
-
-
-        
-        //  return;
-        //TODO: (Req 8) Get the material and the mesh from the AssetLoader by their names [DONE]
-        // Notice how we just get a string from the json file and pass it to the AssetLoader to get us the actual asset
-        // which are defined with the keys "mesh" and "material" in data.
-        // Hint: To get a value of type T from a json object "data" where the key corresponding to the value is "key",
-        // you can use write: data["key"].get<T>().
-        // Look at "source/common/asset-loader.hpp" to know how to use the static class AssetLoader  
-        
-        // mesh = AssetLoader<Mesh>::get(data["mesh"].get<std::string>());
-        // material = AssetLoader<Material>::get(data["material"].get<std::string>());
-        
-        //std::cerr << "\n----------------------------\n" << mesh << std::endl;
-        //std::cerr << "\n----------------------------\n" << material << std::endl;
+        if(data.value("lightType", "directional") == "directional"){
+            type = our::LightType::DIRECTIONAL;
+        }else if(data.value("lightType", "directional") == "point"){
+            type = our::LightType::POINT;
+        }else if(data.value("lightType", "directional") == "spotLight"){
+            type = our::LightType::SPOT;
+        }
 
     }
 }

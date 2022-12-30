@@ -69,13 +69,16 @@ our::Texture2D* our::texture_utils::loadImage(const std::string& filename, bool 
     return texture;
 }
 
-void our::texture_utils::singleColor(GLuint texture, ColorTex color, glm::ivec2 size){
+our::Texture2D* our::texture_utils::singleColor(ColorTex color, glm::ivec2 size){
+    our::Texture2D* texture = new our::Texture2D();
+    //Bind the texture such that we upload the image data to its storage
+    //TODO: (Req 5) Finish this function to fill the texture with the data found in "pixels"    [DONE]
+    texture->bind();
     //Allocate array for texture data
     auto* data = new ColorTex[size.x * size.y];
     //Fill array with the same color
     std::fill_n(data, size.x * size.y, color);
     //Bind the texture such that we upload the image data to its storage
-    glBindTexture(GL_TEXTURE_2D, texture);
     //Set Unpack Alignment to 4-byte (it means that each row takes multiple of 4 bytes in memory)
     //Note: this is not necessary since:
     //- Alignment is 4 by default
@@ -87,4 +90,5 @@ void our::texture_utils::singleColor(GLuint texture, ColorTex color, glm::ivec2 
     //Generate Mipmaps after loading the texture
     glGenerateMipmap(GL_TEXTURE_2D);
     delete[] data;
+    return texture;
 }
