@@ -333,6 +333,34 @@
                     }
                 ]
             },
+            {
+                "position": [39, -5.8, -30],     // position x y3ny hamshy ymeen 12 5twat
+                                                // position z y3ny hamshy 2odam 12 5twat
+                                                // y3ny +ve x bymsheek ymeen
+                                                // y3ny -ve z bymsheek 2odam
+                "rotation": [-90, 0, 0],       // 3mlt rotation fl y, 3lshan floor 2 yb2a el tiles bta3to mazboota
+                "scale": [1, 20, 1],             // badelte el scale.x wl scale.y 3lshan el rotation
+                "components": [
+                    {
+                        "type": "Mesh Renderer",
+                        "mesh": "plane",
+                        "material": "floor2"
+                    }
+                ]
+            },
+            {
+                "position": [30, -5.8, -60],
+
+                "rotation": [-90, 0, 0],
+                "scale": [25, 10, 1],
+                "components": [
+                    {
+                        "type": "Mesh Renderer",
+                        "mesh": "plane",
+                        "material": "ballwood"
+                    }
+                ]
+            },
             // {
             //     "position": [0, 1, 2],
             //     "rotation": [0, 0, 0],
