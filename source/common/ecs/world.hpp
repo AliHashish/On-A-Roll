@@ -6,6 +6,53 @@
 
 namespace our
 {
+    struct Rectangle {
+        // lower left corner coordinates
+        float x;
+        float y;
+        // rectangle width and height
+        float width;
+        float height;
+
+        Rectangle()
+        {
+            x = 0.0f;
+            y = 0.0f;
+            width = 0.0f;
+            height = 0.0f;
+        }
+        Rectangle(float x, float y, float width, float height)
+        {
+            this->x = x;
+            this->y = y;
+            this->width = width;
+            this->height = height;
+        }
+
+        // Check if this coordinate is inside the rectangle
+        bool contains(float x, float y)
+        {
+            // our rectangle looks like this:
+            // (x,y-height)     (x+width,y-height)
+            // +-----------------+
+            // |                 |
+            // |                 |
+            // |     (>x,<y)     |
+            // |                 |
+            // |                 |
+            // +-----------------+
+            // (x,y)            (x+width,y)
+            // Notice that y decreases as we move upward (forward in game, as the game is like a top view)
+            
+            float tolerance = 0.1f;
+            return (x >= this->x - tolerance && x <= this->x + this->width + tolerance) && (y <= this->y + 13 * tolerance && y >= this->y - this->height + 6 * tolerance);
+            // We add a much greater tolerance for the y coordinate to account for the fact that the origin of 
+            // the player is not exactly where the player would expect to find it
+
+            // return (x >= this->x && x <= this->x + this->width) && (y >= this->y && y <= this->y + this->height);
+        }
+
+    };
 
     // This class holds a set of entities
     class World
@@ -14,6 +61,7 @@ namespace our
         std::unordered_set<Entity *> entities;         // These are the entities held by this world
         std::unordered_set<Entity *> markedForRemoval; // These are the entities that are awaiting to be deleted
                                                        // when deleteMarkedEntities is called
+        std::vector<Rectangle> PlatformRectangles;
     public:
         World() = default;
 
@@ -32,6 +80,7 @@ namespace our
             //  and don't forget to insert it in the suitable container. 
             Entity *newEntity = new Entity();
             newEntity->world = this;
+            
             entities.insert(newEntity);
             return newEntity;
         }
@@ -79,6 +128,19 @@ namespace our
             //std::cerr << "b3d clear" << std::endl;
             entities.clear();
             markedForRemoval.clear();
+        }
+
+        // Checks if these coordinates lie inside any of the rectangles
+        bool checkCollision(float x, float y)
+        {
+            for (auto rectangle : PlatformRectangles)
+            {
+                if (rectangle.contains(x, y))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         // Since the world owns all of its entities, they should be deleted alongside it.

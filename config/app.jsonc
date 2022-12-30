@@ -272,6 +272,20 @@
                         "material": "ballwood"
                     }
                 ]
+                
+            },
+            {
+                "position": [0, -6.81, 0],       // el origin 3nd (x,z) hena (0,0)
+                                                // 3lshan el scale = 10, 10 fa el box mkamel l7d [-10, 10]
+                "rotation": [-90, 0, 0],    
+                "scale": [10, 10, 1],
+                "components": [
+                    {
+                        "type": "Mesh Renderer",
+                        "mesh": "cube",
+                        "material": "ballwood"
+                    }
+                ]
             },
             {
                 "position": [-8, -5.8, -30],
