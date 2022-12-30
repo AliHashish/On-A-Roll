@@ -14,7 +14,7 @@ namespace our {
             cameraType = CameraType::PERSPECTIVE;
         }
         near = data.value("near", 0.01f);
-        far = data.value("far", 100.0f);
+        far = data.value("far", 50.0f);         // how far away can the player see
         fovY = data.value("fovY", 90.0f) * (glm::pi<float>() / 180);
         orthoHeight = data.value("orthoHeight", 1.0f);
     }
