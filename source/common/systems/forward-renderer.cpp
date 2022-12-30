@@ -189,8 +189,8 @@ namespace our
                 lights.push_back(light);
             }
         }
-        if(lights[0].type == our::LightType::SPOT)
-            std::cout << "spottt" << std::endl; 
+        // if(lights[0].type == our::LightType::SPOT)
+            // std::cout << "spottt" << std::endl; 
         // If there is no camera, we return (we cannot render without a camera)
         if (camera == nullptr)
             return;

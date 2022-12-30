@@ -30,6 +30,7 @@
                 "moon": "assets/textures/moon.jpg",
                 "grass": "assets/textures/grass_ground_d.jpg",
                 "wood": "assets/textures/wood.jpg",
+                "raft": "assets/textures/raft.jpg",
                 "ballwood": "assets/textures/ballwood.jpg",
                 "floor": "assets/textures/floor.jpg",               // mn 8eir tiles
                 "floor2": "assets/textures/floor2.jpg",             // el tiled
@@ -146,6 +147,36 @@
                     },
                     "tint": [1, 1, 1, 1],
                     "texture": "ballwood",
+                    "sampler": "default"
+                },
+                "wood":{
+                    "type": "textured",
+                    "shader": "textured",
+                    "pipelineState": {
+                        "faceCulling":{
+                            "enabled": false
+                        },
+                        "depthTesting":{
+                            "enabled": true
+                        }
+                    },
+                    "tint": [1, 1, 1, 1],
+                    "texture": "wood",
+                    "sampler": "default"
+                },
+                "raft":{
+                    "type": "textured",
+                    "shader": "textured",
+                    "pipelineState": {
+                        "faceCulling":{
+                            "enabled": false
+                        },
+                        "depthTesting":{
+                            "enabled": true
+                        }
+                    },
+                    "tint": [1, 1, 1, 1],
+                    "texture": "raft",
                     "sampler": "default"
                 },
                 "skull":{
@@ -300,6 +331,18 @@
                 ]
             },
             {
+                "position": [-8, -6.81, -30],
+                "rotation": [-90, 0, 0],
+                "scale": [2, 20, 1],
+                "components": [
+                    {
+                        "type": "Mesh Renderer",
+                        "mesh": "cube",
+                        "material": "raft"
+                    }
+                ]
+            },
+            {
                 "position": [-30, -5.8, 3],
                 "rotation": [-90, 90, 0],
                 "scale": [2, 20, 1],
@@ -308,6 +351,18 @@
                         "type": "Mesh Renderer",
                         "mesh": "plane",
                         "material": "floor2"
+                    }
+                ]
+            },
+            {
+                "position": [-30, -5.8, 3],
+                "rotation": [-90, 90, 0],
+                "scale": [2, 20, 1],
+                "components": [
+                    {
+                        "type": "Mesh Renderer",
+                        "mesh": "cube",
+                        "material": "raft"
                     }
                 ]
             },
@@ -325,6 +380,19 @@
                 ]
             },
             {
+                "position": [-70, -5.8, 3],       // Nether region
+                                                
+                "rotation": [-90, 0, 0],    
+                "scale": [20, 20, 1],
+                "components": [
+                    {
+                        "type": "Mesh Renderer",
+                        "mesh": "cube",
+                        "material": "ballwood"
+                    }
+                ]
+            },
+            {
                 "position": [-85, -5.8, -57],
                 "rotation": [-90, 0, 0],
                 "scale": [2, 40, 1],
@@ -333,6 +401,18 @@
                         "type": "Mesh Renderer",
                         "mesh": "plane",
                         "material": "floor2"
+                    }
+                ]
+            },
+            {
+                "position": [-85, -5.8, -57],
+                "rotation": [-90, 0, 0],
+                "scale": [2, 40, 1],
+                "components": [
+                    {
+                        "type": "Mesh Renderer",
+                        "mesh": "cube",
+                        "material": "raft"
                     }
                 ]
             },
@@ -350,6 +430,19 @@
                 ]
             },
             {
+                "position": [-117, -5.8, -40],
+                                                
+                "rotation": [-90, 0, 0],
+                "scale": [30, 5, 1],
+                "components": [
+                    {
+                        "type": "Mesh Renderer",
+                        "mesh": "cube",
+                        "material": "ballwood"
+                    }
+                ]
+            },
+            {
                 "position": [-149, -5.8, -70],
                 "rotation": [-90, 0, 0],
                 "scale": [2, 35, 1],
@@ -358,6 +451,18 @@
                         "type": "Mesh Renderer",
                         "mesh": "plane",
                         "material": "floor2"
+                    }
+                ]
+            },
+            {
+                "position": [-149, -5.8, -70],
+                "rotation": [-90, 0, 0],
+                "scale": [2, 35, 1],
+                "components": [
+                    {
+                        "type": "Mesh Renderer",
+                        "mesh": "cube",
+                        "material": "raft"
                     }
                 ]
             },
@@ -373,6 +478,19 @@
                     }
                 ]
             },
+            {
+                "position": [-8, -5.8, -52],
+                "rotation": [-90, 0, 0],
+                "scale": [2, 2, 1],
+                "components": [
+                    {
+                        "type": "Mesh Renderer",
+                        "mesh": "cube",
+                        "material": "raft"
+                    }
+                ]
+            },
+            ///////////////////// w2ft hena ////////////////////////
             {
                 "position": [-0.5, -5.8, -52],
                 "rotation": [-90, 90, 0],
@@ -550,7 +668,7 @@
                     {
                         "type": "Mesh Renderer",
                         "mesh": "plane",
-                        "material": "grass"
+                        "material": "floor2"
                     }
                 ]
             },
@@ -562,7 +680,7 @@
                     {
                         "type": "Mesh Renderer",
                         "mesh": "plane",
-                        "material": "grass"
+                        "material": "floor2"
                     }
                 ]
             },
@@ -574,7 +692,7 @@
                     {
                         "type": "Mesh Renderer",
                         "mesh": "plane",
-                        "material": "grass"
+                        "material": "floor2"
                     }
                 ]
             },

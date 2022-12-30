@@ -50,9 +50,10 @@ namespace our {
                 // el awl, b3deeha hrg3 a3ml el steps el 3adya b2a
                 if (entityData["rotation"][1] == 90)
                 {
-                    float temp = width;
-                    width = height;
-                    height = temp;
+                    // float temp = width;
+                    // width = height;
+                    // height = temp;
+                    std::swap(width, height);
                 }
 
                 x -= width;

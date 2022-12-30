@@ -199,6 +199,7 @@ int our::Application::run(int run_for_frames) {
     setupCallbacks();
     keyboard.enable(window);
     mouse.enable(window);
+    
 
     // Start the ImGui context and set dark style (just my preference :D)
     IMGUI_CHECKVERSION();
@@ -341,6 +342,10 @@ int our::Application::run(int run_for_frames) {
         }
 
         ++current_frame;
+        if (states["play"] == currentState) // disabling mouse in play mode
+        {
+            // mouse.disable();
+        }
     }
 
     // Call for cleaning up
