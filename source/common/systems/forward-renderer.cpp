@@ -253,18 +253,18 @@ namespace our
                 switch (lights[i]->type)
                 {
                 case LightType::DIRECTIONAL:
-                    command.material->shader->set(prefix + "direction", glm::normalize(glm::vec3(lights[i]->getOwner()->getLocalToWorldMatrix()*glm::vec4(0.0,-1.0,0.0,0.0))));
+                    command.material->shader->set(prefix + "direction", glm::vec3(lights[i]->getOwner()->getLocalToWorldMatrix()*glm::vec4(0.0,-1.0,0.0,0.0)));
                     break;
                     case LightType::POINT:
                         command.material->shader->set(prefix + "position", glm::vec3(lights[i]->getOwner()->getLocalToWorldMatrix() * glm::vec4(lights[i]->getOwner()->localTransform.position, 0.0f)));
-                        command.material->shader->set(prefix + "direction", glm::normalize(glm::vec3(lights[i]->getOwner()->getLocalToWorldMatrix()*glm::vec4(0.0,-1.0,0.0,0.0))));
+                        command.material->shader->set(prefix + "direction", glm::vec3(lights[i]->getOwner()->getLocalToWorldMatrix()*glm::vec4(0.0,-1.0,0.0,0.0)));
                         command.material->shader->set(prefix + "attenuation_constant", lights[i]->attenuation.constant);
                         command.material->shader->set(prefix + "attenuation_linear", lights[i]->attenuation.linear);
                         command.material->shader->set(prefix + "attenuation_quadratic", lights[i]->attenuation.quadratic);
                         break;
                     case LightType::SPOT:
                         command.material->shader->set(prefix + "position", glm::vec3(lights[i]->getOwner()->getLocalToWorldMatrix() * glm::vec4(lights[i]->getOwner()->localTransform.position, 0.0f)));
-                        command.material->shader->set(prefix + "direction", glm::normalize(glm::vec3(lights[i]->getOwner()->getLocalToWorldMatrix()*glm::vec4(0.0,-1.0,0.0,0.0))));
+                        command.material->shader->set(prefix + "direction", glm::vec3(lights[i]->getOwner()->getLocalToWorldMatrix()*glm::vec4(0.0,-1.0,0.0,0.0)));
                         command.material->shader->set(prefix + "attenuation_constant", lights[i]->attenuation.constant);
                         command.material->shader->set(prefix + "attenuation_linear", lights[i]->attenuation.linear);
                         command.material->shader->set(prefix + "attenuation_quadratic", lights[i]->attenuation.quadratic);

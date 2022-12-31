@@ -1040,7 +1040,7 @@
                     {
                         "type": "Light",
                         "lightType": "point",
-                        "ambient": [0.2, 0.2, 0.6],     
+                        "ambient": [0.2, 0.6, 0.2],     
                         "diffuse": [1, 1, 1]
 
                         

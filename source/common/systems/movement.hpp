@@ -47,9 +47,9 @@ namespace our
                     // Check if x,y lie within any of the rectangles of the world
                     // check lw el y < 0, y3ny howa bada2 yo2a3, fa 5leeh ykamel w2oo3, 7ata lw nzl ta7t platform
                     
-                    // if (!(world->checkCollision(entity->localTransform.position.x, entity->localTransform.position.z - 8)) || entity->localTransform.position.y < -0.4f) {
-                    //     entity->localTransform.position.y -= 0.2f;
-                    // }
+                    if (!(world->checkCollision(entity->localTransform.position.x, entity->localTransform.position.z - 8)) || entity->localTransform.position.y < -0.4f) {
+                        entity->localTransform.position.y -= 0.2f;
+                    }
                     
                     // Check if the player has won the game
                     if (world->WinningRectangle.contains(entity->localTransform.position.x, entity->localTransform.position.z - 8)) {
