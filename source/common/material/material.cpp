@@ -59,10 +59,15 @@ namespace our
         // TODO: (Req 7) Write this function [DONE]
         TintedMaterial::setup();                       // Calling the tinted material setup
         shader->set("alphaThreshold", alphaThreshold); // setting the alphathreshold uniform value
+        glActiveTexture(GL_TEXTURE0);
         if (texture != nullptr)
             texture->bind(); // binding the texture
+        else
+            Texture2D::unbind();
         if (sampler != nullptr)
             sampler->bind(0);
+        else
+            Sampler::unbind(0);
         shader->set("tex", 0); // setting the tex uniform value
     }
 
@@ -79,24 +84,25 @@ namespace our
 
     void LitMaterial::setup() const
     {
-        glActiveTexture(GL_TEXTURE0);
-        if (texture)
-            texture->bind();
-        else
-            Texture2D::unbind();
-        if (sampler)
-            sampler->bind(0);
-        else
-            Sampler::unbind(0);
-        shader->set("tex", 0);
+        TexturedMaterial::setup();
+        // glActiveTexture(GL_TEXTURE0);
+        // if (texture)
+        //     texture->bind();
+        // else
+        //     Texture2D::unbind();
+        // if (sampler)
+        //     sampler->bind(0);
+        // else
+        //     Sampler::unbind(0);
+        // shader->set("tex", 0);
 
         glActiveTexture(GL_TEXTURE1);
         if (albedoMap)
             albedoMap->bind();
         else
             Texture2D::unbind();
-        if (sampler)
-            sampler->bind(1);
+        if (albedoMapSampler)
+            albedoMapSampler->bind(1);
         else
             Sampler::unbind(1);
         shader->set("material.albedo_map", 1);
@@ -106,8 +112,8 @@ namespace our
             specularMap->bind();
         else
             Texture2D::unbind();
-        if (sampler)
-            sampler->bind(2);
+        if (specularMapSampler)
+            specularMapSampler->bind(2);
         else
             Sampler::unbind(2);
         shader->set("material.specular_map", 2);
@@ -117,8 +123,8 @@ namespace our
             roughnessMap->bind();
         else
             Texture2D::unbind();
-        if (sampler)
-            sampler->bind(3);
+        if (roughnessMapSampler)
+            roughnessMapSampler->bind(3);
         else
             Sampler::unbind(3);
         shader->set("material.roughness_map", 3);
@@ -128,8 +134,8 @@ namespace our
             emissiveMap->bind();
         else
             Texture2D::unbind();
-        if (sampler)
-            sampler->bind(4);
+        if (emissiveMapSampler)
+            emissiveMapSampler->bind(4);
         else
             Sampler::unbind(4);
         shader->set("material.emissive_map", 4);
@@ -139,8 +145,8 @@ namespace our
             aoMap->bind();
         else
             Texture2D::unbind();
-        if (sampler)
-            sampler->bind(5);
+        if (aoMapSampler)
+            aoMapSampler->bind(5);
         else
             Sampler::unbind(5);
         shader->set("material.ambient_occlusion_map", 5);
@@ -155,7 +161,7 @@ namespace our
             return;
         albedoMap = AssetLoader<Texture2D>::get(data.value("albedoMap", "white"));
         specularMap = AssetLoader<Texture2D>::get(data.value("specularMap", "black"));
-        roughnessMap = AssetLoader<Texture2D>::get(data.value("roughnessMap", "white"));
+        roughnessMap = AssetLoader<Texture2D>::get(data.value("roughnessMap", "black"));
         emissiveMap = AssetLoader<Texture2D>::get(data.value("emissiveMap", "black"));
         aoMap = AssetLoader<Texture2D>::get(data.value("aoMap", "white"));
     }

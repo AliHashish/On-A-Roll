@@ -22,14 +22,6 @@ namespace our
     class Material
     {
     public:
-        // Light variables
-        glm::vec3 diffuse = {0, 0, 0};
-        glm::vec3 specular = {0, 0, 0};
-        glm::vec3 ambient = {0, 0, 0};
-        // glm::vec4 color = {1, 1, 1, 1};
-
-        float shininess = 1.0f;
-        // LightComponent* light;
 
         PipelineState pipelineState;
         ShaderProgram *shader;
@@ -72,10 +64,15 @@ namespace our
     {
     public:
         Texture2D *albedoMap;
+        Sampler* albedoMapSampler;
         Texture2D *specularMap;
+        Sampler* specularMapSampler;
         Texture2D *roughnessMap;
+        Sampler* roughnessMapSampler;
         Texture2D *emissiveMap;
+        Sampler* emissiveMapSampler;
         Texture2D *aoMap;
+        Sampler* aoMapSampler;
 
         void setup() const override;
         void deserialize(const nlohmann::json &data) override;

@@ -2,6 +2,7 @@
 #include "../mesh/mesh-utils.hpp"
 #include "../texture/texture-utils.hpp"
 #include <iostream>
+#include <glm/glm.hpp>
 
 namespace our
 {
@@ -17,11 +18,6 @@ namespace our
             // First, we create a sphere which will be used to draw the sky
             this->skySphere = mesh_utils::sphere(glm::ivec2(16, 16));
 
-            ShaderProgram *light = new ShaderProgram();
-            light->attach("assets/shaders/light/light.vert", GL_VERTEX_SHADER);
-            light->attach("assets/shaders/light/light.frag", GL_FRAGMENT_SHADER);
-            light->link();
-            lightShader = light;
             // We can draw the sky using the same shader used to draw textured objects
             ShaderProgram *skyShader = new ShaderProgram();
             skyShader->attach("assets/shaders/textured.vert", GL_VERTEX_SHADER);
@@ -167,7 +163,7 @@ namespace our
                 command.mesh = meshRenderer->mesh;
                 command.material = meshRenderer->material;
                 // if it is transparent, we add it to the transparent commands list
-                
+
                 if (command.material->transparent)
                 {
                     transparentCommands.push_back(command);
@@ -180,18 +176,11 @@ namespace our
             }
             else if (auto lightComponent = entity->getComponent<LightComponent>(); lightComponent)
             {
-                LightComponent light;
-                light.ambient = lightComponent->ambient;
-                light.color = lightComponent->color;
-                light.diffuse = lightComponent->diffuse;
-                light.shininess = lightComponent->shininess;
-                light.specular = lightComponent->specular;
-                light.type = lightComponent->type;
-                lights.push_back(light);
+                lights.push_back(lightComponent);
             }
         }
         // if(lights[0].type == our::LightType::SPOT)
-            // std::cout << "spottt" << std::endl; 
+        // std::cout << "spottt" << std::endl;
         // If there is no camera, we return (we cannot render without a camera)
         if (camera == nullptr)
             return;
@@ -242,13 +231,54 @@ namespace our
 
         // TODO: (Req 9) Draw all the opaque commands    [DONE]
         //  Don't forget to set the "transform" uniform to be equal the model-view-projection matrix for each render command
-        
+
         for (auto command : opaqueCommands)
         {
             command.material->setup();
-            command.material->shader->set("transform", VP * command.localToWorld);
+            command.material->shader->set("object_to_world", command.localToWorld);
+            command.material->shader->set("object_to_world_inv_transpose", glm::transpose(glm::inverse(command.localToWorld)));
+            glm::vec4 eye = camera->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 0, 0, 1);
+            command.material->shader->set("camera_position", glm::vec3(eye));
+            command.material->shader->set("light_count", (int)lights.size());
+
+            for (int i = 0; i < lights.size(); ++i)
+            {
+                std::string prefix = "lights[" + std::to_string(i) + "].";
+
+                command.material->shader->set(prefix + "type", static_cast<int>(lights[i]->type));
+                command.material->shader->set(prefix + "diffuse", lights[i]->diffuse);
+                command.material->shader->set(prefix + "ambient", lights[i]->ambient);
+                command.material->shader->set(prefix + "specular", lights[i]->specular);
+
+                switch (lights[i]->type)
+                {
+                case LightType::DIRECTIONAL:
+                    command.material->shader->set(prefix + "direction", glm::normalize(glm::vec3(lights[i]->getOwner()->getLocalToWorldMatrix()*glm::vec4(0.0,-1.0,0.0,0.0))));
+                    break;
+                    // case LightType::POINT:
+                    //     command.material->shader->set(prefix + "position", );
+                    //     command.material->shader->set(prefix + "attenuation_constant", lights[i]->attenuation.constant);
+                    //     command.material->shader->set(prefix + "attenuation_linear", light.attenuation.linear);
+                    //     command.material->shader->set(prefix + "attenuation_quadratic", light.attenuation.quadratic);
+                    //     break;
+                    // case LightType::SPOT:
+                    //     command.material->shader->set(prefix + "position", light.position);
+                    //     command.material->shader->set(prefix + "direction", );
+                    //     command.material->shader->set(prefix + "attenuation_constant", light.attenuation.constant);
+                    //     command.material->shader->set(prefix + "attenuation_linear", light.attenuation.linear);
+                    //     command.material->shader->set(prefix + "attenuation_quadratic", light.attenuation.quadratic);
+                    //     command.material->shader->set(prefix + "inner_angle", light.spot_angle.inner);
+                    //     command.material->shader->set(prefix + "outer_angle", light.spot_angle.outer);
+                    //     break;
+                }
+                if (i >= 16)
+                    break;
+            }
+
+            command.material->shader->set("view_projection", VP );
             command.mesh->draw();
         }
+
         // If there is a sky material, draw the sky
         if (this->skyMaterial)
         {
@@ -276,22 +306,53 @@ namespace our
             // TODO: (Req 10) draw the sky sphere    [DONE]
             skySphere->draw();
         }
-        
+
         // TODO: (Req 9) Draw all the transparent commands   [DONE]
         //  Don't forget to set the "transform" uniform to be equal the model-view-projection matrix for each render command
         for (auto command : transparentCommands)
         {
-            // lightShader->set("object_to_world", command.localToWorld);
-            // lightShader->set("object_to_world_inv_transpose", glm::transpose(glm::inverse(command.localToWorld)));
-			//Adding lighting support
-			// lightShader->set("view_projection", VP);
-			// glm::vec4 eye = camera->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 0, 0, 1);
-			// lightShader->set("camera_position", glm::vec3(eye));
-			// lightShader->set("light_count", (int)lights.size());
-
-
             command.material->setup();
-            command.material->shader->set("transform", VP * command.localToWorld);
+            command.material->shader->set("object_to_world", command.localToWorld);
+            command.material->shader->set("object_to_world_inv_transpose", glm::transpose(glm::inverse(command.localToWorld)));
+            glm::vec4 eye = camera->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 0, 0, 1);
+            command.material->shader->set("camera_position", glm::vec3(eye));
+            command.material->shader->set("light_count", (int)lights.size());
+
+            for (int i = 0; i < lights.size(); ++i)
+            {
+                std::string prefix = "lights[" + std::to_string(i) + "].";
+
+                command.material->shader->set(prefix + "type", static_cast<int>(lights[i]->type));
+                command.material->shader->set(prefix + "diffuse", lights[i]->diffuse);
+                command.material->shader->set(prefix + "ambient", lights[i]->ambient);
+                command.material->shader->set(prefix + "specular", lights[i]->specular);
+
+                switch (lights[i]->type)
+                {
+                case LightType::DIRECTIONAL:
+                    command.material->shader->set(prefix + "direction", glm::normalize(glm::vec3(lights[i]->getOwner()->getLocalToWorldMatrix()*glm::vec4(0.0,-1.0,0.0,0.0))));
+                    break;
+                    // case LightType::POINT:
+                    //     command.material->shader->set(prefix + "position", );
+                    //     command.material->shader->set(prefix + "attenuation_constant", lights[i]->attenuation.constant);
+                    //     command.material->shader->set(prefix + "attenuation_linear", light.attenuation.linear);
+                    //     command.material->shader->set(prefix + "attenuation_quadratic", light.attenuation.quadratic);
+                    //     break;
+                    // case LightType::SPOT:
+                    //     command.material->shader->set(prefix + "position", light.position);
+                    //     command.material->shader->set(prefix + "direction", );
+                    //     command.material->shader->set(prefix + "attenuation_constant", light.attenuation.constant);
+                    //     command.material->shader->set(prefix + "attenuation_linear", light.attenuation.linear);
+                    //     command.material->shader->set(prefix + "attenuation_quadratic", light.attenuation.quadratic);
+                    //     command.material->shader->set(prefix + "inner_angle", light.spot_angle.inner);
+                    //     command.material->shader->set(prefix + "outer_angle", light.spot_angle.outer);
+                    //     break;
+                }
+                if (i >= 16)
+                    break;
+            }
+
+            command.material->shader->set("view_projection", VP );
             command.mesh->draw();
         }
 

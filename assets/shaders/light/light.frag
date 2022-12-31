@@ -1,18 +1,15 @@
 #version 330 core
 
-// We include the common light functions and structures.
-// Note that GLSL doesn't support "#include" by default but we the library "stb_include" to recursively include the files as a string preprocessing phase.
-// stb_include "light_common.glsl"
 
 in Varyings {
     vec4 color;
     vec2 tex_coord;
     // We will need the vertex position in the world space,
-    // vec3 world;
+    vec3 world;
     // // the view vector (vertex to eye vector in the world space),
-    // vec3 view;
+    vec3 view;
     // // and the surface normal in the world space.
-    // vec3 normal;
+    vec3 normal;
 } fsin;
 
 // These type constants match their peers in the C++ code.
@@ -20,15 +17,22 @@ in Varyings {
 #define TYPE_POINT          1
 #define TYPE_SPOT           2
 
+struct Material {
+    vec3 diffuse;
+    vec3 specular;
+    vec3 ambient;
+    vec3 emissive;
+    float shininess;
+};
+
 // Now we will use a single struct for all light types.
 struct Light {
     // This will hold the light type.
     int type;
-    // This defines the color and intensity of the light.
-    // Note that we no longer define different values for the diffuse and the specular because it is unrealistic.
-    // Also, we skipped the ambient and we will use a sky light instead.
-    vec3 color;
 
+    vec3 diffuse;
+    vec3 specular;
+    vec3 ambient;
     // Position is used for point and spot lights. Direction is used for directional and spot lights.
     vec3 position, direction;
     // Attentuation factors are used for point and spot lights.
@@ -39,73 +43,89 @@ struct Light {
     float inner_angle, outer_angle;
 };
 
-// The sky light will allow us to vary the ambient light based on the surface normal which is slightly more realistic compared to constant ambient lighting.
-struct SkyLight {
-    vec3 top_color, middle_color, bottom_color;
-};
-
 // This will define the maximum number of lights we can receive.
 #define MAX_LIGHT_COUNT 16
 
+struct LitMaterial {
+    sampler2D albedo_map;
+    vec3 albedo_tint;
+    sampler2D specular_map;
+    vec3 specular_tint;
+    sampler2D roughness_map;
+    vec2 roughness_range;
+    sampler2D emissive_map;
+    vec3 emissive_tint;
+    sampler2D ambient_occlusion_map;
+};
+
+
 // // Now we recieve the material, light array, the actual number of lights sent from the cpu and the sky light.
-// uniform TexturedMaterial material;
-// uniform Light lights[MAX_LIGHT_COUNT];
-// uniform int light_count;
-// uniform SkyLight sky_light;
+uniform LitMaterial material;
+uniform Light lights[MAX_LIGHT_COUNT];
+uniform int light_count;
 
 out vec4 frag_color;
 
 void main() {
     // First, we sample the material at the current pixel.
-    // Material sampled = sample_material(material, fsin.tex_coord);
+    Material sampled;
+        // Albedo is used to sample the diffuse
+    sampled.diffuse =texture(material.albedo_map, fsin.tex_coord).rgb;
+    // Specular is used to sample the specular... obviously
+    sampled.specular = texture(material.specular_map, fsin.tex_coord).rgb;
+    // Emissive is used to sample the Emissive... once again "obviously"
+    sampled.emissive = texture(material.emissive_map, fsin.tex_coord).rgb;
+    // Ambient is computed by multiplying the diffuse by the ambient occlusion factor. This allows occluded crevices to look darker.
+    sampled.ambient = sampled.diffuse * texture(material.ambient_occlusion_map, fsin.tex_coord).r;
 
-    // // Then we normalize the normal and the view. These are done once and reused for every light type.
-    // vec3 normal = normalize(fsin.normal); // Although the normal was already normalized, it may become shorter during interpolation.
-    // vec3 view = normalize(fsin.view);
+    // Roughness is used to compute the shininess (specular power).
+    float roughness =  texture(material.roughness_map, fsin.tex_coord).r;
 
-    // // We calcuate the ambient using the sky light and the surface normal.
-    // vec3 ambient = sampled.ambient * (normal.y > 0 ?
-    //     mix(sky_light.middle_color, sky_light.top_color, normal.y) :
-    //     mix(sky_light.middle_color, sky_light.bottom_color, -normal.y));
+    // It is noteworthy that we clamp the roughness to prevent its value from ever becoming 0 or 1 to prevent lighting artifacts.
+    sampled.shininess = 2.0f/pow(clamp(roughness, 0.001f, 0.999f), 4.0f) - 2.0f;
 
-    // // Initially the accumulated light will hold the ambient light and the emissive light (light coming out of the object).
-    // vec3 accumulated_light = sampled.emissive + ambient;
+    // Then we normalize the normal and the view. These are done once and reused for every light type.
+    vec3 normal = normalize(fsin.normal); // Although the normal was already normalized, it may become shorter during interpolation.
+    vec3 view = normalize(fsin.view);
 
+
+    vec3 accumulated_light = vec3(0.0f);
     // // Make sure that the actual light count never exceeds the maximum light count.
-    // int count = min(light_count, MAX_LIGHT_COUNT);
+    int count = min(light_count, MAX_LIGHT_COUNT);
+    vec3 ambient = sampled.ambient;
     // // Now we will loop over all the lights.
-    // for(int index = 0; index < count; index++){
-    //     Light light = lights[index];
-    //     vec3 light_direction;
-    //     float attenuation = 1;
-    //     if(light.type == TYPE_DIRECTIONAL)
-    //         light_direction = light.direction; // If light is directional, use its direction as the light direction
-    //     else {
-    //         // If not directional, compute the direction from the position.
-    //         light_direction = fsin.world - light.position;
-    //         float distance = length(light_direction);
-    //         light_direction /= distance;
+    for(int index = 0; index < count; index++){
+        Light light = lights[index];
+        ambient *= light.ambient;
+        vec3 light_direction;
+        float attenuation = 1;
+        if(light.type == TYPE_DIRECTIONAL)
+            light_direction = light.direction; // If light is directional, use its direction as the light direction
+        else {
+            // If not directional, compute the direction from the position.
+            light_direction = fsin.world - light.position;
+            float distance = length(light_direction);
+            light_direction /= distance;
 
-    //         // And compute the attenuation.
-    //         attenuation *= 1.0f / (light.attenuation_constant +
-    //         light.attenuation_linear * distance +
-    //         light.attenuation_quadratic * distance * distance);
+            // And compute the attenuation.
+            attenuation *= 1.0f / (light.attenuation_constant +
+            light.attenuation_linear * distance +
+            light.attenuation_quadratic * distance * distance);
 
-    //         if(light.type == TYPE_SPOT){
-    //             // If it is a spot light, comput the angle attenuation.
-    //             float angle = acos(dot(light.direction, light_direction));
-    //             attenuation *= smoothstep(light.outer_angle, light.inner_angle, angle);
-    //         }
-    //     }
+            if(light.type == TYPE_SPOT){
+                // If it is a spot light, comput the angle attenuation.
+                float angle = acos(dot(light.direction, light_direction));
+                attenuation *= smoothstep(light.outer_angle, light.inner_angle, angle);
+            }
+        }
 
-    //     // Now we compute the 2 components of the light separately.
-    //     vec3 diffuse = sampled.diffuse * light.color * calculate_lambert(normal, light_direction);
-    //     vec3 specular = sampled.specular * light.color * calculate_phong(normal, light_direction, view, sampled.shininess);
+        // Now we compute the 2 components of the light separately.
+        vec3 diffuse = sampled.diffuse * light.diffuse * max(0.0f, dot(normal, -light_direction));
+        vec3 specular = sampled.specular * light.specular * pow(max(0.0f, dot(view, reflect(light_direction, normal))), sampled.shininess);
 
-    //     // Then we accumulate the light components additively.
-    //     accumulated_light += (diffuse + specular) * attenuation;
-    // }
+        // Then we accumulate the light components additively.
+        accumulated_light += (diffuse + specular) * attenuation + ambient;
+    }
 
-    // frag_color = fsin.color * vec4(accumulated_light, 1.0f);
-    frag_color = vec4(1.0,1.0,0.0,1.0);
+    frag_color = fsin.color * vec4(accumulated_light, 1.0f);
 }

@@ -24,6 +24,10 @@
                 "textured":{
                     "vs":"assets/shaders/textured.vert",
                     "fs":"assets/shaders/textured.frag"
+                },
+                "light":{
+                    "vs":"assets/shaders/light/light.vert",
+                    "fs":"assets/shaders/light/light.frag"
                 }
             },
             "textures":{
@@ -54,8 +58,8 @@
             },
             "materials":{
                 "metal":{
-                    "type": "tinted",
-                    "shader": "tinted",
+                    "type": "lit",
+                    "shader": "light",
                     "pipelineState": {
                         "faceCulling":{
                             "enabled": false
@@ -64,11 +68,12 @@
                             "enabled": true
                         }
                     },
-                    "tint": [0.45, 0.4, 0.5, 1]
+                    "tint": [0.45, 0.4, 0.5, 1],
+                    "albedoMap": "metal"
                 },
                 "glass":{
-                    "type": "textured",
-                    "shader": "textured",
+                    "type": "lit",
+                    "shader": "light",
                     "pipelineState": {
                         "faceCulling":{
                             "enabled": true         // enabled face culling to fix how the ball looks
@@ -87,11 +92,12 @@
                     "transparent": true,
                     "tint": [1, 1, 1, 1],
                     "texture": "glass",
-                    "sampler": "pixelated"
+                    "sampler": "pixelated",
+                    "albedoMap": "glass"
                 },
                 "grass":{
-                    "type": "textured",
-                    "shader": "textured",
+                    "type": "lit",
+                    "shader": "light",
                     "pipelineState": {
                         "faceCulling":{
                             "enabled": false
@@ -102,11 +108,12 @@
                     },
                     "tint": [1, 1, 1, 1],
                     "texture": "grass",
-                    "sampler": "default"
+                    "sampler": "default",
+                    "albedoMap": "grass"
                 },
                 "monkey":{
-                    "type": "textured",
-                    "shader": "textured",
+                    "type": "lit",
+                    "shader": "light",
                     "pipelineState": {
                         "faceCulling":{
                             "enabled": false
@@ -117,11 +124,12 @@
                     },
                     "tint": [1, 1, 1, 1],
                     "texture": "monkey",
-                    "sampler": "default"
+                    "sampler": "default",
+                    "albedoMap": "monkey"
                 },
                 "moon":{
-                    "type": "textured",
-                    "shader": "textured",
+                    "type": "lit",
+                    "shader": "light",
                     "pipelineState": {
                         "faceCulling":{
                             "enabled": false
@@ -135,8 +143,8 @@
                     "sampler": "default"
                 },
                 "ballwood":{
-                    "type": "textured",
-                    "shader": "textured",
+                    "type": "lit",
+                    "shader": "light",
                     "pipelineState": {
                         "faceCulling":{
                             "enabled": false
@@ -147,11 +155,12 @@
                     },
                     "tint": [1, 1, 1, 1],
                     "texture": "ballwood",
-                    "sampler": "default"
+                    "sampler": "default",
+                    "albedoMap": "ballwood"
                 },
                 "wood":{
-                    "type": "textured",
-                    "shader": "textured",
+                    "type": "lit",
+                    "shader": "light",
                     "pipelineState": {
                         "faceCulling":{
                             "enabled": false
@@ -162,11 +171,12 @@
                     },
                     "tint": [1, 1, 1, 1],
                     "texture": "wood",
-                    "sampler": "default"
+                    "sampler": "default",
+                    "albedoMap": "wood"
                 },
                 "raft":{
-                    "type": "textured",
-                    "shader": "textured",
+                    "type": "lit",
+                    "shader": "light",
                     "pipelineState": {
                         "faceCulling":{
                             "enabled": false
@@ -177,11 +187,12 @@
                     },
                     "tint": [1, 1, 1, 1],
                     "texture": "raft",
-                    "sampler": "default"
+                    "sampler": "default",
+                    "albedoMap": "raft"
                 },
                 "skull":{
-                    "type": "textured",
-                    "shader": "textured",
+                    "type": "lit",
+                    "shader": "light",
                     "pipelineState": {
                         "faceCulling":{
                             "enabled": false
@@ -192,11 +203,12 @@
                     },
                     "tint": [1, 1, 1, 1],
                     "texture": "skull",
-                    "sampler": "default"
+                    "sampler": "default",
+                    "albedoMap": "skull"
                 },
                 "floor":{
-                    "type": "textured",
-                    "shader": "textured",
+                    "type": "lit",
+                    "shader": "light",
                     "pipelineState": {
                         "faceCulling":{
                             "enabled": false
@@ -208,10 +220,11 @@
                     "tint": [1, 1, 1, 1],
                     "texture": "floor",
                     "sampler": "default"
+
                 },
                 "floor2":{
-                    "type": "textured",
-                    "shader": "textured",
+                    "type": "lit",
+                    "shader": "light",
                     "pipelineState": {
                         "faceCulling":{
                             "enabled": false
@@ -235,13 +248,7 @@
                     },
                     {
                         "type": "Free Camera Controller"
-                    },
-                    {
-                        "type": "Light",
-                        "lightType":"spotLight",
-                        "ambient": [0, 0.1, 0],
-                        "diffuse": [0, 3, 0]
-                    }  
+                    }
                 ],
                 "children": [
                     // {
@@ -983,6 +990,20 @@
                     {
                         "type": "Movement",
                         "angularVelocity": [0, 90, 0]
+                    }
+                ]
+            },
+            {
+                "position": [0,0,3],   
+                "rotation": [0, 0, 0],       
+                "scale": [1, 20, 1],           
+                "components": [
+                    {
+                        "type": "Light",
+
+                        "diffuse": [1, 1, 1]
+
+                        
                     }
                 ]
             }
