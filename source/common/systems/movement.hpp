@@ -28,10 +28,19 @@ namespace our
                 CameraComponent* camera = entity->getComponent<CameraComponent>();
                 // Check if the camera component exists
                 if(camera){
+                    // printing camera rotation
+                    // std::cout << "Camera rotation: " << entity->localTransform.rotation.x << ", " << entity->localTransform.rotation.y << ", " << entity->localTransform.rotation.z << std::endl;
+                    // Notice that angles are in radian
+
+                    // deserialize camera to get its components
+                    // entity->deserialize();
+
+
+
                     // We will now handle 'physics collisions' through coordinates
                     // std::cout << "Camera position: " << entity->localTransform.position.x << ", " << entity->localTransform.position.y << ", " << entity->localTransform.position.z - 8 << std::endl;
                     // 8albn hnzawed 8 3l z 
-                    // hne7tafez bl vertices (left corner, width (2*scale), height (2*scale) )
+                    // hne7tafez bl vertices (lower left corner, width (2*scale), height (2*scale) )
                     // get child component of camera
                     // camera->getOwner()->getChildren();
                     

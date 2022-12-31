@@ -22,8 +22,16 @@ namespace our {
             type = our::LightType::DIRECTIONAL;
         }else if(data.value("lightType", "directional") == "point"){
             type = our::LightType::POINT;
+            attenuation.constant = data.value("attenuation_constant", attenuation.constant);
+            attenuation.linear = data.value("attenuation_linear", attenuation.linear);
+            attenuation.quadratic = data.value("attenuation_quadratic", attenuation.quadratic);
         }else if(data.value("lightType", "directional") == "spotLight"){
-        type = our::LightType::SPOT;
+            type = our::LightType::SPOT;
+            attenuation.constant = data.value("attenuation_constant", attenuation.constant);
+            attenuation.linear = data.value("attenuation_linear", attenuation.linear);
+            attenuation.quadratic = data.value("attenuation_quadratic", attenuation.quadratic);
+            spot_angle.inner = data.value("spot_angle_inner", spot_angle.inner);
+            spot_angle.outer = data.value("spot_angle_outer", spot_angle.outer);
         }
 
     }

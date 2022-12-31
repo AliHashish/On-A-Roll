@@ -19,7 +19,8 @@ void main()
     if(res < scanlineWidth || res > (1.0 - scanlineWidth)){
         color = vec4(color.r* 0.2,color.g*0.2,color.b* 0.2, color.a);
     } else {
-        color = vec4(color.r* 0.8,color.g,color.b* 0.8, color.a);
+        // color = vec4(color.r* 0.8,color.g,color.b* 0.8, color.a);
+        color = vec4(color.r, color.g, color.b, color.a);
     }
     frag_color = color;
 }

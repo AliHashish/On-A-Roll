@@ -11,8 +11,9 @@
     },
     "scene": {
         "renderer":{
-            "sky": "assets/textures/sky.jpg",
-            "postprocess": "assets/shaders/postprocess/scanline.frag"
+            "sky": "assets/textures/sky.jpg"
+            // "postprocess": "assets/shaders/postprocess/scanline.frag"
+
         },
         
         "assets":{
@@ -39,7 +40,8 @@
                 "floor": "assets/textures/floor.jpg",               // mn 8eir tiles
                 "floor2": "assets/textures/floor2.jpg",             // el tiled
                 "skull": "assets/textures/skull.jpg",
-                "glass": "assets/textures/glass-panels.png",
+                "skull2": "assets/textures/skull2.jpg",
+                "glass": "assets/textures/glass-panels2.png",
                 "monkey": "assets/textures/monkey.png"
             },
             "meshes":{
@@ -84,7 +86,7 @@
                         },
                         "blending":{
                             "enabled": true,
-                            "sourceFactor": "GL_SRC_ALPHA",
+                            "sourceFactor": "GL_ONE",
                             "destinationFactor": "GL_ONE_MINUS_SRC_ALPHA"
                         },
                         "depthMask": false
@@ -206,6 +208,22 @@
                     "sampler": "default",
                     "albedoMap": "skull"
                 },
+                "skull2":{
+                    "type": "lit",
+                    "shader": "light",
+                    "pipelineState": {
+                        "faceCulling":{
+                            "enabled": false
+                        },
+                        "depthTesting":{
+                            "enabled": true
+                        }
+                    },
+                    "tint": [1, 1, 1, 1],
+                    "texture": "skull",
+                    "sampler": "default",
+                    "albedoMap": "skull2"
+                },
                 "floor":{
                     "type": "lit",
                     "shader": "light",
@@ -277,9 +295,11 @@
                             },
                             {
                                 "type": "Movement",
-                                "angularVelocity": [-90, 0, 0]
+                                // "angularVelocity": [-90, 0, 0]
+                                "angularVelocity": [0, 0, 0]
                             }    
                         ]
+                        // "player" : true
                     }
                 ]
             },
@@ -980,9 +1000,9 @@
                 ]
             },
             {
-                "position": [0, 100, 0],
-                "rotation": [45, 45, 0],
-                "scale": [5, 5, 5],
+                "position": [30, 10, 0],
+                "rotation": [30, 45, 0],
+                "scale": [4, 4, 4],
                 "components": [
                     {
                         "type": "Mesh Renderer",
@@ -997,18 +1017,49 @@
             },
             {
                 "position": [0,0,3],   
-                "rotation": [0, 0, 0],       
-                "scale": [1, 20, 1],           
+                "rotation": [0, 0, 0],               
                 "components": [
                     {
                         "type": "Light",
+                        "lightType": "spotLight",
+                        "ambient": [0.6, 0.2, 0.2],
+                        "diffuse": [1, 1, 1]
 
+                        
+                    },
+                    {
+                        "type": "Movement",
+                        "angularVelocity": [0, 90, 0]
+                    }
+                ]
+            },
+            {
+                "position": [0,0,3],   
+                "rotation": [0, 0, 0],              
+                "components": [
+                    {
+                        "type": "Light",
+                        "lightType": "point",
+                        "ambient": [0.2, 0.2, 0.6],     
                         "diffuse": [1, 1, 1]
 
                         
                     }
                 ]
             }
+            // {
+            //     "position": [0,0,3],   
+            //     "rotation": [0, 0, 0],             
+            //     "components": [
+            //         {
+            //             "type": "Light",
+            //             // "ambient": [0.3, 0.6, 0.3],
+            //             "diffuse": [1, 1, 1]
+
+                        
+            //         }
+            //     ]
+            // }
         ]
     }
 }

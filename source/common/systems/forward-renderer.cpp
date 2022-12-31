@@ -255,21 +255,22 @@ namespace our
                 case LightType::DIRECTIONAL:
                     command.material->shader->set(prefix + "direction", glm::normalize(glm::vec3(lights[i]->getOwner()->getLocalToWorldMatrix()*glm::vec4(0.0,-1.0,0.0,0.0))));
                     break;
-                    // case LightType::POINT:
-                    //     command.material->shader->set(prefix + "position", );
-                    //     command.material->shader->set(prefix + "attenuation_constant", lights[i]->attenuation.constant);
-                    //     command.material->shader->set(prefix + "attenuation_linear", light.attenuation.linear);
-                    //     command.material->shader->set(prefix + "attenuation_quadratic", light.attenuation.quadratic);
-                    //     break;
-                    // case LightType::SPOT:
-                    //     command.material->shader->set(prefix + "position", light.position);
-                    //     command.material->shader->set(prefix + "direction", );
-                    //     command.material->shader->set(prefix + "attenuation_constant", light.attenuation.constant);
-                    //     command.material->shader->set(prefix + "attenuation_linear", light.attenuation.linear);
-                    //     command.material->shader->set(prefix + "attenuation_quadratic", light.attenuation.quadratic);
-                    //     command.material->shader->set(prefix + "inner_angle", light.spot_angle.inner);
-                    //     command.material->shader->set(prefix + "outer_angle", light.spot_angle.outer);
-                    //     break;
+                    case LightType::POINT:
+                        command.material->shader->set(prefix + "position", glm::vec3(lights[i]->getOwner()->getLocalToWorldMatrix() * glm::vec4(lights[i]->getOwner()->localTransform.position, 0.0f)));
+                        command.material->shader->set(prefix + "direction", glm::normalize(glm::vec3(lights[i]->getOwner()->getLocalToWorldMatrix()*glm::vec4(0.0,-1.0,0.0,0.0))));
+                        command.material->shader->set(prefix + "attenuation_constant", lights[i]->attenuation.constant);
+                        command.material->shader->set(prefix + "attenuation_linear", lights[i]->attenuation.linear);
+                        command.material->shader->set(prefix + "attenuation_quadratic", lights[i]->attenuation.quadratic);
+                        break;
+                    case LightType::SPOT:
+                        command.material->shader->set(prefix + "position", glm::vec3(lights[i]->getOwner()->getLocalToWorldMatrix() * glm::vec4(lights[i]->getOwner()->localTransform.position, 0.0f)));
+                        command.material->shader->set(prefix + "direction", glm::normalize(glm::vec3(lights[i]->getOwner()->getLocalToWorldMatrix()*glm::vec4(0.0,-1.0,0.0,0.0))));
+                        command.material->shader->set(prefix + "attenuation_constant", lights[i]->attenuation.constant);
+                        command.material->shader->set(prefix + "attenuation_linear", lights[i]->attenuation.linear);
+                        command.material->shader->set(prefix + "attenuation_quadratic", lights[i]->attenuation.quadratic);
+                        command.material->shader->set(prefix + "inner_angle", lights[i]->spot_angle.inner);
+                        command.material->shader->set(prefix + "outer_angle", lights[i]->spot_angle.outer);
+                        break;
                 }
                 if (i >= 16)
                     break;

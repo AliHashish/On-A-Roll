@@ -127,5 +127,5 @@ void main() {
         accumulated_light += (diffuse + specular) * attenuation + ambient;
     }
 
-    frag_color = fsin.color * vec4(accumulated_light, 1.0f);
+    frag_color = fsin.color * vec4(accumulated_light, texture(material.albedo_map, fsin.tex_coord).a);
 }
