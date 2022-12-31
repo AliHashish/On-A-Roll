@@ -219,7 +219,8 @@
                     },
                     "tint": [1, 1, 1, 1],
                     "texture": "floor",
-                    "sampler": "default"
+                    "sampler": "default",
+                    "albedoMap":"floor"
 
                 },
                 "floor2":{
@@ -235,7 +236,8 @@
                     },
                     "tint": [1, 1, 1, 1],
                     "texture": "floor2",
-                    "sampler": "default"
+                    "sampler": "default",
+                    "albedoMap":"floor2"
                 }
             }
         },
