@@ -69,8 +69,30 @@ namespace our {
                 Rectangle R(x, y, width, height);
                 PlatformRectangles.push_back(R);
 
-
+                // Check if this platfrom was the winning platform
                 
+            }
+            if(entityData.contains("WinState"))
+            {
+                float x = entityData["position"][0];
+                float y = entityData["position"][2];
+                float width = entityData["scale"][0];
+                float height = entityData["scale"][1];
+                
+                if (entityData["rotation"][1] == 90)
+                {
+                    std::swap(width, height);
+                }
+
+                x -= width;
+                y += height;
+                width *= 2;
+                height *= 2;
+                
+                Rectangle R(x, y, width, height);
+                WinningRectangle = R;
+                std::cout << "Winning Rectangle Placed: " << WinningRectangle.x << " " << WinningRectangle.y;
+                std::cout << WinningRectangle.width << " " << WinningRectangle.height << std::endl;
             }
         }
     }

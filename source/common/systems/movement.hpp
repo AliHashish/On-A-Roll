@@ -19,6 +19,7 @@ namespace our
     class MovementSystem {
     public:
 
+        bool winningState = false; // has the player won the game
         // This should be called every frame to update all entities containing a MovementComponent. 
         void update(World* world, float deltaTime) {
             // For each entity in the world
@@ -40,6 +41,11 @@ namespace our
                     // if (!(world->checkCollision(entity->localTransform.position.x, entity->localTransform.position.z - 8)) || entity->localTransform.position.y < -0.4f) {
                     //     entity->localTransform.position.y -= 0.2f;
                     // }
+                    
+                    // Check if the player has won the game
+                    if (world->WinningRectangle.contains(entity->localTransform.position.x, entity->localTransform.position.z - 8)) {
+                        winningState = true;
+                    }
                     
                     // check if y is less than -15
                     if (entity->localTransform.position.y < -15.0f) {

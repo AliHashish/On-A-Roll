@@ -565,7 +565,7 @@
                 ]
             },
             {
-                "position": [-198, -5.8, -110],      // WIN STATEEEEEEEEEEEE
+                "position": [-198, -5.8, -110],
                                                 
                 "rotation": [-90, 0, 0],
                 "scale": [20, 20, 1],
@@ -576,6 +576,16 @@
                         "material": "grass"
                     }
                 ]
+            },
+            {
+                "position": [-198, -5.8, -110],      // WIN STATEEEEEEEEEEEE
+                                                
+                "rotation": [-90, 0, 0],
+                "scale": [10, 10, 1],               
+                // To avoid Z-fighting with the above plane
+                // We remove the components, so that nothing will be drawn
+                // but its position, rotation and scale will still be used
+                "WinState": true
             },
             {
                 "position": [-198, -6.85, -110],
@@ -779,6 +789,18 @@
                 ]
             },
             {
+                "position": [30, -6.85, -114],
+                "rotation": [-90, 0, 0],
+                "scale": [4, 4, 1],
+                "components": [
+                    {
+                        "type": "Mesh Renderer",
+                        "mesh": "cube",
+                        "material": "raft"
+                    }
+                ]
+            },
+            {
                 "position": [43, -5.8, -114],
                 "rotation": [-90, 90, 0],
                 "scale": [4, 9, 1],
@@ -787,6 +809,18 @@
                         "type": "Mesh Renderer",
                         "mesh": "plane",
                         "material": "floor2"
+                    }
+                ]
+            },
+            {
+                "position": [43, -6.85, -114],
+                "rotation": [-90, 90, 0],
+                "scale": [4, 9, 1],
+                "components": [
+                    {
+                        "type": "Mesh Renderer",
+                        "mesh": "cube",
+                        "material": "raft"
                     }
                 ]
             },
@@ -803,6 +837,18 @@
                 ]
             },
             {
+                "position": [-8, -6.85, -114],
+                "rotation": [-90, 90, 0],
+                "scale": [4, 34, 1],
+                "components": [
+                    {
+                        "type": "Mesh Renderer",
+                        "mesh": "cube",
+                        "material": "raft"
+                    }
+                ]
+            },
+            {
                 "position": [-76, -5.8, -114],
                 "rotation": [-90, 90, 0],
                 "scale": [4, 34, 1],
@@ -811,6 +857,18 @@
                         "type": "Mesh Renderer",
                         "mesh": "plane",
                         "material": "floor2"
+                    }
+                ]
+            },
+            {
+                "position": [-76, -6.85, -114],
+                "rotation": [-90, 90, 0],
+                "scale": [4, 34, 1],
+                "components": [
+                    {
+                        "type": "Mesh Renderer",
+                        "mesh": "cube",
+                        "material": "raft"
                     }
                 ]
             },
@@ -826,6 +884,19 @@
                     }
                 ]
             },
+            {
+                "position": [-144, -6.85, -114],
+                "rotation": [-90, 90, 0],
+                "scale": [4, 34, 1],
+                "components": [
+                    {
+                        "type": "Mesh Renderer",
+                        "mesh": "cube",
+                        "material": "raft"
+                    }
+                ]
+            },
+            
             
             // {
             //     "position": [0, 1, 2],

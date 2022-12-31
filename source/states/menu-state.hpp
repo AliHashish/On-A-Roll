@@ -56,7 +56,18 @@ class Menustate: public our::State {
         menuMaterial->shader->attach("assets/shaders/textured.frag", GL_FRAGMENT_SHADER);
         menuMaterial->shader->link();
         // Then we load the menu texture
-        menuMaterial->texture = our::texture_utils::loadImage("assets/textures/menu.png");
+        // lw howa keseb, e3ml load lel sora dyh instead
+        // std::cout << "Testing" << this->getApp()->Winning << std::endl;
+        if (this->getApp()->Winning){      // y3ny howa gh el menu l2no keseb
+            
+            this->getApp()->Winning = false;    // 3lshan lw gh yo5rog 3ady, mnektebsh eno keseb
+            menuMaterial->texture = our::texture_utils::loadImage("assets/textures/win.png");
+        }
+        else{
+            // y3ny 3amal exit, aw lesa awl mra yft7 el le3ba
+            menuMaterial->texture = our::texture_utils::loadImage("assets/textures/menu.png");
+        } 
+        // std::cout << "Testing" << this->getApp()->Winning << std::endl;    
         // Initially, the menu material will be black, then it will fade in
         menuMaterial->tint = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
 

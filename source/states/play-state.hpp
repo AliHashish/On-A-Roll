@@ -45,6 +45,17 @@ class Playstate: public our::State {
         // Get a reference to the keyboard object
         auto& keyboard = getApp()->getKeyboard();
         
+        // Check if player has won
+        if (movementSystem.winningState){
+            movementSystem.winningState = false;    // returning it to false, so that if the player
+                                                    // plays again, it won't show that he won without winning
+            // std::cout << "el mafrood false You won!" << this->getApp()->Winning << std::endl;
+            this->getApp()->Winning = true;     // dh elly hyetbe3et lel menu-state
+                                                // el menu state hya elly ht7oto false
+            // std::cout << "el mafrood true After You won!" << this->getApp()->Winning << std::endl;
+            getApp()->changeState("menu");
+        }
+        
 
         if(keyboard.justPressed(GLFW_KEY_ESCAPE)){
             // If the escape  key is pressed in this frame, go to the play state

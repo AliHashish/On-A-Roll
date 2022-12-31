@@ -47,7 +47,6 @@ namespace our {
         //Returns a pointer
         Application* getApp() { return application; }
     };
-
     // This class act as base class for all the Applications covered in the examples.
     // It offers the functionalities needed by all the examples.
     class Application {
@@ -72,6 +71,7 @@ namespace our {
 
     public:
 
+        static bool Winning;        // variable that is shared between the states. it is used to determine whether the player won or exited the game
         // Create an application with following configuration
         Application(const nlohmann::json& app_config) : app_config(app_config) {}
         // On destruction, delete all the states

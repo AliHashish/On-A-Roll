@@ -66,3 +66,5 @@ int main(int argc, char** argv) {
     // Here, the application loop will run till the terminatio condition is statisfied
     return app.run(run_for_frames);
 }
+
+bool our::Application::Winning = false;     // initially, the player has not won the game
