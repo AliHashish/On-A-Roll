@@ -14,12 +14,12 @@ namespace our {
 
     private:
         //Shader Program Handle (OpenGL object name)
-        GLuint program;
 
         std::map<std::string, GLuint> uniform_location_cache;   // a map to cache things in, instead of
                                                                 // searching everytime for it
 
     public:
+        GLuint program;
         ShaderProgram(){
             //TODO: (Req 1) Create A shader program     [DONE]
             program = glCreateProgram();

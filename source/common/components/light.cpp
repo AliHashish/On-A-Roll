@@ -23,7 +23,7 @@ namespace our {
         }else if(data.value("lightType", "directional") == "point"){
             type = our::LightType::POINT;
         }else if(data.value("lightType", "directional") == "spotLight"){
-            type = our::LightType::SPOT;
+        type = our::LightType::SPOT;
         }
 
     }

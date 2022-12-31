@@ -17,11 +17,11 @@ namespace our
             // First, we create a sphere which will be used to draw the sky
             this->skySphere = mesh_utils::sphere(glm::ivec2(16, 16));
 
-            // ShaderProgram *light = new ShaderProgram;
-            // light->attach("assets/shaders/light/light.vert", GL_VERTEX_SHADER);
-            // light->attach("assets/shaders/light/light.frag", GL_FRAGMENT_SHADER);
-            // light->link();
-            // lightShader
+            ShaderProgram *light = new ShaderProgram();
+            light->attach("assets/shaders/light/light.vert", GL_VERTEX_SHADER);
+            light->attach("assets/shaders/light/light.frag", GL_FRAGMENT_SHADER);
+            light->link();
+            lightShader = light;
             // We can draw the sky using the same shader used to draw textured objects
             ShaderProgram *skyShader = new ShaderProgram();
             skyShader->attach("assets/shaders/textured.vert", GL_VERTEX_SHADER);
@@ -167,6 +167,7 @@ namespace our
                 command.mesh = meshRenderer->mesh;
                 command.material = meshRenderer->material;
                 // if it is transparent, we add it to the transparent commands list
+                
                 if (command.material->transparent)
                 {
                     transparentCommands.push_back(command);
@@ -241,6 +242,7 @@ namespace our
 
         // TODO: (Req 9) Draw all the opaque commands    [DONE]
         //  Don't forget to set the "transform" uniform to be equal the model-view-projection matrix for each render command
+        
         for (auto command : opaqueCommands)
         {
             command.material->setup();
@@ -274,10 +276,20 @@ namespace our
             // TODO: (Req 10) draw the sky sphere    [DONE]
             skySphere->draw();
         }
+        
         // TODO: (Req 9) Draw all the transparent commands   [DONE]
         //  Don't forget to set the "transform" uniform to be equal the model-view-projection matrix for each render command
         for (auto command : transparentCommands)
         {
+            // lightShader->set("object_to_world", command.localToWorld);
+            // lightShader->set("object_to_world_inv_transpose", glm::transpose(glm::inverse(command.localToWorld)));
+			//Adding lighting support
+			// lightShader->set("view_projection", VP);
+			// glm::vec4 eye = camera->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 0, 0, 1);
+			// lightShader->set("camera_position", glm::vec3(eye));
+			// lightShader->set("light_count", (int)lights.size());
+
+
             command.material->setup();
             command.material->shader->set("transform", VP * command.localToWorld);
             command.mesh->draw();
@@ -295,7 +307,6 @@ namespace our
 
             // TODO: (Req 11) Setup the postprocess material and draw the fullscreen triangle    [DONE]
             postprocessMaterial->setup();
-
             // draw the fullscreen triangle
             glBindVertexArray(postProcessVertexArray);
             glDrawArrays(GL_TRIANGLES, 0, 3);
