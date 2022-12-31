@@ -22,7 +22,10 @@ namespace our
     {
         Application *app;          // The application in which the state runs
         bool mouse_locked = false; // Is the mouse locked
+
         bool clickedShift = false;  // used in angular velocity
+        float forwardShiftMultiplier = 1;  // used in angular velocity
+        float sidewaysShiftMultiplier = 1; // used in angular velocity
 
     public:
         // When a state enters, it should call this function and give it the pointer to the application
@@ -122,15 +125,16 @@ namespace our
                 if(!clickedShift)
                 {
                     clickedShift = true;
-                    // get player angular velocity
-                    player->angularVelocity *= 40 * controller->speedupFactor;
+                    forwardShiftMultiplier = controller->speedupFactor / 2.0f;
+                    sidewaysShiftMultiplier = controller->speedupFactor / 4.0f;
                 }
             }
 
             if (app->getKeyboard().justReleased(GLFW_KEY_LEFT_SHIFT))
             {
                 clickedShift = false;
-                player->angularVelocity /= (40 * controller->speedupFactor);
+                forwardShiftMultiplier = 1.0f;
+                sidewaysShiftMultiplier = 1.0f;
             }
 
 
@@ -140,13 +144,13 @@ namespace our
             {
                 position += front * (deltaTime * current_sensitivity.z);
                 // update player angular velocity
-                player->angularVelocity.x = -5.0f;
+                player->angularVelocity.x = -5.0f * forwardShiftMultiplier;
             }
             if (app->getKeyboard().isPressed(GLFW_KEY_S) || app->getKeyboard().isPressed(GLFW_KEY_DOWN))
             {
                 position -= front * (deltaTime * current_sensitivity.z);
                 // update player angular velocity
-                player->angularVelocity.x = 5.0f;
+                player->angularVelocity.x = 5.0f * forwardShiftMultiplier;
             }    
             if ((app->getKeyboard().isPressed(GLFW_KEY_W) || app->getKeyboard().isPressed(GLFW_KEY_UP)) && (app->getKeyboard().isPressed(GLFW_KEY_S) || app->getKeyboard().isPressed(GLFW_KEY_DOWN)))
             {
@@ -198,13 +202,13 @@ namespace our
             {
                 position += right * (deltaTime * current_sensitivity.x);
                 // update player angular velocity
-                player->angularVelocity.z = -5.0f;
+                player->angularVelocity.z = -5.0f * sidewaysShiftMultiplier;
             }
             if (app->getKeyboard().isPressed(GLFW_KEY_A) || app->getKeyboard().isPressed(GLFW_KEY_LEFT))
             {
                 position -= right * (deltaTime * current_sensitivity.x);
                 // update player angular velocity
-                player->angularVelocity.z = 5.0f;
+                player->angularVelocity.z = 5.0f * sidewaysShiftMultiplier;
             }
 
             if ((app->getKeyboard().isPressed(GLFW_KEY_D) || app->getKeyboard().isPressed(GLFW_KEY_RIGHT)) && (app->getKeyboard().isPressed(GLFW_KEY_A) || app->getKeyboard().isPressed(GLFW_KEY_LEFT)))
