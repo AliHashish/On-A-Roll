@@ -63,12 +63,12 @@ namespace our
     class LitMaterial : public Material
     {
     public:
-        Texture2D *albedoMap;
-        Texture2D *specularMap;
-        Texture2D *roughnessMap;
+        Texture2D *albedoMap; // maps to diffuse
+        Texture2D *specularMap; // maps to specular
+        Texture2D *roughnessMap; //maps to 1-shininess
         Texture2D *emissiveMap;
-        Texture2D *aoMap;
-        Sampler* MapSampler;
+        Texture2D *aoMap; // ambient
+        Sampler* MapSampler; // using one sampler to share the options
 
         void setup() const override;
         void deserialize(const nlohmann::json &data) override;

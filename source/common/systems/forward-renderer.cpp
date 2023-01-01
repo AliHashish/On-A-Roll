@@ -234,15 +234,19 @@ namespace our
 
         for (auto command : opaqueCommands)
         {
-            command.material->setup();
+            // setting up material and some other set ups
+            command.material->setup();  
             command.material->shader->set("object_to_world", command.localToWorld);
             command.material->shader->set("object_to_world_inv_transpose", glm::transpose(glm::inverse(command.localToWorld)));
-            glm::vec4 eye = camera->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 0, 0, 1);
+            glm::vec4 eye = camera->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 0, 0, 1);    // (0,0,0) position of camera in its local space, 1 for point
             command.material->shader->set("camera_position", glm::vec3(eye));
             command.material->shader->set("light_count", (int)lights.size());
+            command.material->shader->set("view_projection", VP );
 
+            // looping on lights (We will use the 1st approach (single pass forward lighting))
             for (int i = 0; i < lights.size(); ++i)
             {
+                
                 std::string prefix = "lights[" + std::to_string(i) + "].";
 
                 command.material->shader->set(prefix + "type", static_cast<int>(lights[i]->type));
@@ -250,12 +254,15 @@ namespace our
                 command.material->shader->set(prefix + "ambient", lights[i]->ambient);
                 command.material->shader->set(prefix + "specular", lights[i]->specular);
 
+                // Checking the light type, to set its values
                 switch (lights[i]->type)
                 {
                 case LightType::DIRECTIONAL:
+                    // (0,-1,0) light is coming from upside, and we convert it to world space
                     command.material->shader->set(prefix + "direction", glm::vec3(lights[i]->getOwner()->getLocalToWorldMatrix()*glm::vec4(0.0,-1.0,0.0,0.0)));
                     break;
                     case LightType::POINT:
+                        // converting position of light to world space
                         command.material->shader->set(prefix + "position", glm::vec3(lights[i]->getOwner()->getLocalToWorldMatrix() * glm::vec4(lights[i]->getOwner()->localTransform.position, 0.0f)));
                         command.material->shader->set(prefix + "direction", glm::vec3(lights[i]->getOwner()->getLocalToWorldMatrix()*glm::vec4(0.0,-1.0,0.0,0.0)));
                         command.material->shader->set(prefix + "attenuation_constant", lights[i]->attenuation.constant);
@@ -276,7 +283,7 @@ namespace our
                     break;
             }
 
-            command.material->shader->set("view_projection", VP );
+            
             command.mesh->draw();
         }
 
@@ -318,6 +325,7 @@ namespace our
             glm::vec4 eye = camera->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 0, 0, 1);
             command.material->shader->set("camera_position", glm::vec3(eye));
             command.material->shader->set("light_count", (int)lights.size());
+            command.material->shader->set("view_projection", VP );
 
             for (int i = 0; i < lights.size(); ++i)
             {
@@ -354,7 +362,7 @@ namespace our
                     break;
             }
 
-            command.material->shader->set("view_projection", VP );
+            
             command.mesh->draw();
         }
 

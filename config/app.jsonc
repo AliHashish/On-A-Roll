@@ -11,7 +11,8 @@
     },
     "scene": {
         "renderer":{
-            "sky": "assets/textures/sky.jpg"
+            "sky": "assets/textures/sky.jpg",
+            "postprocess": "assets/shaders/postprocess/chromatic-aberration.frag"
             // "postprocess": "assets/shaders/postprocess/scanline.frag"
 
         },
@@ -1093,7 +1094,7 @@
                     {
                         "type": "Light",                               // default type is directional
                         "ambient": [0.1, 0.1, 0.3],                    //light of something not directly affected
-                        "diffuse": [0.1, 0.1, 0.5],                    //light that directly affects other materials
+                        "diffuse": [0.1, 0.1, 0.7],                    //light that directly affects other materials
                         "specular": [0, 0, 1]                          //light that appears when materials have no albedo
                         
                     }

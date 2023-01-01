@@ -9,17 +9,19 @@ out vec4 frag_color;
 //create a scanline effect
 void main()
 {
-    vec4 color = texture(tex, tex_coord);
-    float scanlineWidth = 0.003;
-    float scanlineCount = 800.0;
-    vec2 uv = tex_coord;
-    uv.y *= scanlineCount;
-    float res = mod(uv.y, 1.0);
+    vec4 color = texture(tex, tex_coord);       // color of the pixel inside the texture(tex)
+    float scanlineWidth = 0.003;                // width of the scanline
+    float scanlineCount = 800.0;                // number of scanlines
+    vec2 uv = tex_coord;                        // uv coordinates of the pixel inside the texture(tex)
+    uv.y *= scanlineCount;                      // multiply the y coordinate of the pixel with the number of scanlines
+    float res = mod(uv.y, 1.0);                 // get the remainder of the division of the y coordinate of the pixel with 1.0
 
+    // if the remainder is less than the width of the scanline or greater than 1.0 - the width of the scanline
     if(res < scanlineWidth || res > (1.0 - scanlineWidth)){
-        color = vec4(color.r* 0.2,color.g*0.2,color.b* 0.2, color.a);
+        color = vec4(color.r* 0.2,color.g*0.2,color.b* 0.2, color.a);   // make the color of the pixel darker
     } else {
-        color = vec4(color.r* 0.6, color.g * 0.6 , color.b, color.a);
+        color = vec4(color.r* 0.6, color.g * 0.6 , color.b, color.a);   // make the color of the pixel lighter
+        // acts as some sort of a tint
         // color = vec4(color.r, color.g, color.b, color.a);
     }
     frag_color = color;

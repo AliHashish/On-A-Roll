@@ -48,13 +48,9 @@ struct Light {
 
 struct LitMaterial {
     sampler2D albedo_map;
-    vec3 albedo_tint;
     sampler2D specular_map;
-    vec3 specular_tint;
     sampler2D roughness_map;
-    vec2 roughness_range;
     sampler2D emissive_map;
-    vec3 emissive_tint;
     sampler2D ambient_occlusion_map;
 };
 
@@ -72,13 +68,14 @@ void main() {
     sampled.diffuse =texture(material.albedo_map, fsin.tex_coord).rgb;      // Albedo is used to sample the diffuse
     sampled.specular = texture(material.specular_map, fsin.tex_coord).rgb;
     sampled.emissive = texture(material.emissive_map, fsin.tex_coord).rgb;
+    //For corners to be darker
     sampled.ambient = sampled.diffuse * texture(material.ambient_occlusion_map, fsin.tex_coord).r;
     // Ambient is computed by multiplying the diffuse by the ambient occlusion factor. This allows occluded crevices to look darker.
 
     // Roughness is used to compute the shininess (specular power).
     float roughness =  texture(material.roughness_map, fsin.tex_coord).r;
 
-    // It is noteworthy that we clamp the roughness to prevent its value from ever becoming 0 or 1 to prevent lighting artifacts.
+    // It is noteworthy that we clamp the roughness to prevent its value from ever becoming 0 or 1 to prevent lighting artifacts (unexpected behavior).
     sampled.shininess = 2.0f/pow(clamp(roughness, 0.001f, 0.999f), 4.0f) - 2.0f;
 
     // Then we normalize the normal and the view. These are done once and reused for every light type.
@@ -102,6 +99,7 @@ void main() {
             // If not directional, compute the direction from the position.
             light_direction = fsin.world - light.position;
             float distance = length(light_direction);
+            //To get direction (unit vector)
             light_direction /= distance;
 
             // And compute the attenuation.
@@ -111,18 +109,24 @@ void main() {
 
             if(light.type == TYPE_SPOT){
                 // If it is a spot light, comput the angle attenuation.
+                // light_direction: direction between the eye & object
+                // light.direction: direction of the light itself
                 float angle = acos(dot(light.direction, light_direction));
+                //performs smooth interpolation between 0 and 1 when edge0 < x < edge1.
                 attenuation *= smoothstep(light.outer_angle, light.inner_angle, angle);
             }
         }
 
         // Now we compute the 2 components of the light separately.
+        // lambert
         vec3 diffuse = sampled.diffuse * light.diffuse * max(0.0f, dot(normal, -light_direction));
+        // phong
         vec3 specular = sampled.specular * light.specular * pow(max(0.0f, dot(view, reflect(light_direction, normal))), sampled.shininess);
 
         // Then we accumulate the light components additively.
         accumulated_light += (diffuse + specular+ ambient) * attenuation ;
     }
 
+    // we add emissive so that the object can emit light
     frag_color = fsin.color * vec4(accumulated_light+sampled.emissive, texture(material.albedo_map, fsin.tex_coord).a);
 }

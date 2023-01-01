@@ -84,8 +84,9 @@ namespace our
 
     void LitMaterial::setup() const
     {
-        Material::setup();
+        Material::setup(); //calling pipeline setup and use shadeer
 
+        //having more than one texture so we specify which one we will use
         glActiveTexture(GL_TEXTURE1);
         if (albedoMap)
             albedoMap->bind();
@@ -95,6 +96,7 @@ namespace our
             MapSampler->bind(1);
         else
             Sampler::unbind(1);
+        //Setting uniform material.albedo_map in shader
         shader->set("material.albedo_map", 1);
 
         glActiveTexture(GL_TEXTURE2);
@@ -149,6 +151,7 @@ namespace our
         Material::deserialize(data);
         if (!data.is_object())
             return;
+        // black & white is a single color texture initilized in asset loader
         albedoMap = AssetLoader<Texture2D>::get(data.value("albedoMap", "black"));
         specularMap = AssetLoader<Texture2D>::get(data.value("specularMap", "black"));
         roughnessMap = AssetLoader<Texture2D>::get(data.value("roughnessMap", "black"));

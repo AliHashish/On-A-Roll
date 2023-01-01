@@ -13,10 +13,8 @@ namespace our {
         specular = data.value("specular", specular);
         // Get ambient from JSON
         ambient = data.value("ambient", ambient);
-        // Get color from JSON
-        color = data.value("color", color);
-        // Get Shininess from JSON
-        shininess = data.value("shininess", shininess);
+        // // Get color from JSON
+        // color = data.value("color", color);
 
         if(data.value("lightType", "directional") == "directional"){
             type = our::LightType::DIRECTIONAL;
