@@ -29,13 +29,20 @@ namespace our
                 // Check if the camera component exists
                 if(camera){
                     // printing camera rotation
-                    // std::cout << "Camera rotation: " << entity->localTransform.rotation.x << ", " << entity->localTransform.rotation.y << ", " << entity->localTransform.rotation.z << std::endl;
+                    // std::cout << "Camera rotation: " << entity->localTransform.rotation.x << ", " << entity->localTransform.rotation.y << ", " << entity->localTransform.rotation.z << " ";
                     // Notice that angles are in radian
+
+                    // printing camera position
+                    // std::cout << " Camera position: " << entity->localTransform.position.x << ", " << entity->localTransform.position.y << ", " << entity->localTransform.position.z; //<< std::endl;
+
+
+                    // std::cout << "-90: " << ((-450%360)+360)%360 << ", 90: " << ((450%360)+360)%360 << std::endl;
+
 
                     // deserialize camera to get its components
                     // entity->deserialize();
 
-
+                    // std::cout << " New x: " << entity->localTransform.position.x - 8 * glm::sin(entity->localTransform.rotation.y) << " , New y: " <<  entity->localTransform.position.z - 8 * glm::cos(entity->localTransform.rotation.y) << std::endl;
 
                     // We will now handle 'physics collisions' through coordinates
                     // std::cout << "Camera position: " << entity->localTransform.position.x << ", " << entity->localTransform.position.y << ", " << entity->localTransform.position.z - 8 << std::endl;
@@ -47,21 +54,47 @@ namespace our
                     // Check if x,y lie within any of the rectangles of the world
                     // check lw el y < 0, y3ny howa bada2 yo2a3, fa 5leeh ykamel w2oo3, 7ata lw nzl ta7t platform
                     
-                    if (!(world->checkCollision(entity->localTransform.position.x, entity->localTransform.position.z - 8)) || entity->localTransform.position.y < -0.4f) {
+                    if (!(world->checkCollision(entity->localTransform.position.x - 8 * glm::sin(entity->localTransform.rotation.y), entity->localTransform.position.z - 8 * glm::cos(entity->localTransform.rotation.y))) || entity->localTransform.position.y < -0.4f) {
                         entity->localTransform.position.y -= 0.2f;
+                        // notice that for the player, we need to do some coordinate corrections, as we have the coordinates of the camera only
+                        // so we deduce the coordinates of the player from the camera coordinates such that
+                        
+                        // We are going to Draw a square
+                        //                             camera rotation 180
+                        //                                 (0,-6) 
+                        //                           +-----------------+
+                        //                           |                 |
+                        //                           |                 |
+                        //                           |     player      |
+                        // camera rotation (-8,2)    |     (0,2)       | (8,2) camera rotation 90
+                        //   270                     |                 |
+                        //                           |                 |
+                        //                           |                 |
+                        //                           +-----------------+
+                        //                                 (0,10)
+                        //                               camera rotation 0
+
+                        // so we just need to remove 8 * sin(rotation) from x
+                        // and remove 8 * cos(rotation) from z
+
+
+
                     }
                     
-                    //Check if the player has won the game
-                    if (world->WinningRectangle.contains(entity->localTransform.position.x, entity->localTransform.position.z - 8)) {
+                    // Check if the player has won the game
+                    if (world->WinningRectangle.contains(entity->localTransform.position.x - 8 * glm::sin(entity->localTransform.rotation.y), entity->localTransform.position.z - 8 * glm::cos(entity->localTransform.rotation.y))) {
+                        // same correction is used here
                         winningState = true;
                     }
                     
                     // check if y is less than -15
                     if (entity->localTransform.position.y < -15.0f) {
                         // return to original coordinares (respawn)
-                        entity->localTransform.position.x = 0.0f;
+                        entity->localTransform.position.x = 0.0f + 8 * glm::sin(entity->localTransform.rotation.y);
                         entity->localTransform.position.y = 0.0f;
-                        entity->localTransform.position.z = 10.0f;
+                        entity->localTransform.position.z = 2.0f + 8 * glm::cos(entity->localTransform.rotation.y);
+                        // this time, we add the correction instead of removing it, as this is relative to the camera
+                        // (k2nena bn3ml el 3aks)
                     }
                 }
                 // Get the movement component if it exists

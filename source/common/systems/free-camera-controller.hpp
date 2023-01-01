@@ -179,18 +179,18 @@ namespace our
             {
                 rotation.y += glm::half_pi<float>(); // * deltaTime;
                 // erg3 wara 8, w emshy ymeen 8
-                position.x += 8.0f;
-                position.z += 8.0f;
+                position.x += 8.0f * (glm::cos(rotation.y) + glm::sin(rotation.y));
+                position.z += 8.0f * (glm::cos(rotation.y) - glm::sin(rotation.y));
                 // print sine and cosine of the rotation and the rotation angle
-                std::cout << "sin: " << glm::sin(rotation.y) << " cos: " << glm::cos(rotation.y) << " angle: " << rotation.y << std::endl;
+                // std::cout << "sin: " << glm::sin(rotation.y) << " cos: " << glm::cos(rotation.y) << " angle: " << rotation.y << std::endl;
             }
             if (app->getKeyboard().justPressed(GLFW_KEY_E))
             {
                 rotation.y -= glm::half_pi<float>(); // * deltaTime;
                 // erg3 wara 8, w emshy shmal 8
-                position.x -= 8.0f;
-                position.z -= 8.0f;
-                std::cout << "sin: " << glm::sin(rotation.y) << " cos: " << glm::cos(rotation.y) << std::endl;
+                position.x += 8.0f * (glm::sin(rotation.y) - glm::cos(rotation.y));
+                position.z += 8.0f * (glm::sin(rotation.y) + glm::cos(rotation.y));
+                std::cout << "sin: " << glm::sin(rotation.y) << " cos: " << glm::cos(rotation.y) << " angle: " << rotation.y << std::endl;
             }
             // This could prevent floating point error if the player rotates in single direction for an extremely long time.
             // rotation.y = glm::wrapAngle(rotation.y);

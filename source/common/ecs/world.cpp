@@ -91,8 +91,8 @@ namespace our {
                 
                 Rectangle R(x, y, width, height);
                 WinningRectangle = R;
-                std::cout << "Winning Rectangle Placed: " << WinningRectangle.x << " " << WinningRectangle.y;
-                std::cout << WinningRectangle.width << " " << WinningRectangle.height << std::endl;
+                // std::cout << "Winning Rectangle Placed: " << WinningRectangle.x << " " << WinningRectangle.y << " ";
+                // std::cout << WinningRectangle.width << " " << WinningRectangle.height << std::endl;
             }
         }
     }
