@@ -11,8 +11,8 @@
     },
     "scene": {
         "renderer":{
-            "sky": "assets/textures/sky.jpg",
-            "postprocess": "assets/shaders/postprocess/scanline.frag"
+            "sky": "assets/textures/sky.jpg"
+            // "postprocess": "assets/shaders/postprocess/scanline.frag"
 
         },
         
@@ -34,6 +34,7 @@
             "textures":{
                 "moon": "assets/textures/moon.jpg",
                 "grass": "assets/textures/grass_ground_d.jpg",
+                "ice": "assets/textures/ice.jpg",
                 "wood": "assets/textures/wood.jpg",
                 "raft": "assets/textures/raft.jpg",
                 "ballwood": "assets/textures/ballwood.jpg",
@@ -46,6 +47,7 @@
                 "albedoA": "assets/textures/temp/albedo.jpg",
                 "specularA": "assets/textures/temp/albedo.jpg",
                 "roughnessA": "assets/textures/temp/roughness.jpg",
+                "sanic": "assets/textures/base.jpg",
                 "glass": "assets/textures/glass-panels2.png",
                 "monkey": "assets/textures/monkey.png"
             },
@@ -54,7 +56,8 @@
                 "monkey": "assets/models/monkey.obj",
                 "plane": "assets/models/plane.obj",
                 "sphere": "assets/models/sphere.obj",
-                "skull": "assets/models/skull.obj"
+                "skull": "assets/models/skull.obj",
+                "sanic": "assets/models/theo_the_teddybear.obj"
 
             },
             "samplers":{
@@ -117,6 +120,23 @@
                     "texture": "grass",
                     "sampler": "default",
                     "albedoMap": "grass"
+                },
+                "ice":{
+                    "type": "lit",
+                    "shader": "light",
+                    "pipelineState": {
+                        "faceCulling":{
+                            "enabled": false
+                        },
+                        "depthTesting":{
+                            "enabled": true
+                        }
+                    },
+                    "tint": [1, 1, 1, 1],
+                    "texture": "ice",
+                    "sampler": "default",
+                    "albedoMap": "ice",
+                    "emissiveMap": "moon"
                 },
                 "monkey":{
                     "type": "lit",
@@ -229,6 +249,24 @@
                     "sampler": "default",
                     // "albedoMap": "skull2",
                     "specularMap": "particle",
+                    "roughnessMap": "roughnessA"
+                },
+                "sanic":{
+                    "type": "lit",
+                    "shader": "light",
+                    "pipelineState": {
+                        "faceCulling":{
+                            "enabled": false
+                        },
+                        "depthTesting":{
+                            "enabled": true
+                        }
+                    },
+                    "tint": [1, 1, 1, 1],
+                    "texture": "sanic",
+                    "sampler": "default",
+                    "albedoMap": "sanic",
+                    "specularMap": "white",
                     "roughnessMap": "roughnessA"
                 },
                 "emissive":{
@@ -628,7 +666,7 @@
                     {
                         "type": "Mesh Renderer",
                         "mesh": "plane",
-                        "material": "grass"
+                        "material": "ice"
                     }
                 ]
             },
@@ -636,11 +674,23 @@
                 "position": [-198, -5.8, -110],      // WIN STATEEEEEEEEEEEE
                                                 
                 "rotation": [-90, 0, 0],
-                "scale": [10, 10, 1],               
+                "scale": [5, 5, 1],               
                 // To avoid Z-fighting with the above plane
                 // We remove the components, so that nothing will be drawn
                 // but its position, rotation and scale will still be used
-                "WinState": true
+                "WinState": true            // used in calculating the coordinates of winning rectangle
+            },
+            {
+                "position": [-198, -5.82, -110],
+                "rotation": [0, 90, 0],
+                "scale": [0.1, 0.1, 0.1],
+                "components": [
+                    {
+                        "type": "Mesh Renderer",
+                        "mesh": "sanic",
+                        "material": "sanic"
+                    }
+                ]
             },
             {
                 "position": [-198, -6.85, -110],
@@ -942,7 +992,7 @@
             // {                                                // Testing ground that covers most of the world
             //     "position": [0, -30, 0],
             //     "rotation": [-90, 90, 0],
-            //     "scale": [200, 200, 1],
+            //     "scale": [2000, 2000, 1],
             //     "components": [
             //         {
             //             "type": "Mesh Renderer",
@@ -985,6 +1035,10 @@
                         "mesh": "skull",
                         "material": "emissive"
                     }
+                    // {
+                    //     "type": "Movement",
+                    //     "angularVelocity": [45, 45, 45]
+                    // }
                 ]
             },
             {
@@ -1037,11 +1091,27 @@
                 "rotation": [0, 0, 0],             
                 "components": [
                     {
-                        "type": "Light",
-                        // "ambient": [0.3, 0.6, 0.3],
-                        "ambient": [0.1, 0.3, 0.1],                    //light of something not directly affected
-                        "diffuse": [0.1, 0.1, 0.3],                    //light that directly affects other materials
+                        "type": "Light",                               // default type is directional
+                        "ambient": [0.1, 0.1, 0.3],                    //light of something not directly affected
+                        "diffuse": [0.1, 0.1, 0.5],                    //light that directly affects other materials
                         "specular": [0, 0, 1]                          //light that appears when materials have no albedo
+                        
+                    }
+                ]
+            }
+            ,{
+                "position": [-198, 10, -110],
+                "rotation": [0, 0, 0],                            // rotation y by7arak el light fl z-axis
+                                                                    // y +ve, z -ve (2odam)
+                "components": [
+                    {
+                        "type": "Light",
+                        "lightType": "spotLight",
+                        "ambient": [0.1, 0.1, 0.1],           //Ambient always lights the whole world as its equation always adds to the accumulated light
+                        "diffuse": [0.4, 0.4, 0.4],         //Diffuse values correspond to the color the light should light with
+                        "specular": [0.5, 0.5, 0.5],              //Specular only lights the object that has no albedo, only roughness and specular
+                        "spot_angle_inner": 0.5,
+                        "spot_angle_outer": 0.55
                         
                     }
                 ]

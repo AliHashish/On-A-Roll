@@ -190,7 +190,7 @@ namespace our
                 // erg3 wara 8, w emshy shmal 8
                 position.x += 8.0f * (glm::sin(rotation.y) - glm::cos(rotation.y));
                 position.z += 8.0f * (glm::sin(rotation.y) + glm::cos(rotation.y));
-                std::cout << "sin: " << glm::sin(rotation.y) << " cos: " << glm::cos(rotation.y) << " angle: " << rotation.y << std::endl;
+                // std::cout << "sin: " << glm::sin(rotation.y) << " cos: " << glm::cos(rotation.y) << " angle: " << rotation.y << std::endl;
             }
             // This could prevent floating point error if the player rotates in single direction for an extremely long time.
             // rotation.y = glm::wrapAngle(rotation.y);
