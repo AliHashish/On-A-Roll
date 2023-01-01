@@ -18,10 +18,9 @@ void main()
 
     // if the remainder is less than the width of the scanline or greater than 1.0 - the width of the scanline
     if(res < scanlineWidth || res > (1.0 - scanlineWidth)){
-        color = vec4(color.r* 0.2,color.g*0.2,color.b* 0.2, color.a);   // make the color of the pixel darker
+        color = vec4(color.r* 0.2,color.g*0.2,color.b* 0.2, color.a);   // make the color of the pixel darker (draw the black line)
     } else {
-        color = vec4(color.r* 0.6, color.g * 0.6 , color.b, color.a);   // make the color of the pixel lighter
-        // acts as some sort of a tint
+        color = vec4(color.r* 0.6, color.g * 0.6 , color.b, color.a);   // acts as some sort of a tint
         // color = vec4(color.r, color.g, color.b, color.a);
     }
     frag_color = color;
