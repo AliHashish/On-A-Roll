@@ -112,8 +112,8 @@ namespace our
             specularMap->bind();
         else
             Texture2D::unbind();
-        if (specularMapSampler)
-            specularMapSampler->bind(2);
+        if (albedoMapSampler)
+            albedoMapSampler->bind(2);
         else
             Sampler::unbind(2);
         shader->set("material.specular_map", 2);
@@ -123,8 +123,8 @@ namespace our
             roughnessMap->bind();
         else
             Texture2D::unbind();
-        if (roughnessMapSampler)
-            roughnessMapSampler->bind(3);
+        if (albedoMapSampler)
+            albedoMapSampler->bind(3);
         else
             Sampler::unbind(3);
         shader->set("material.roughness_map", 3);
@@ -134,8 +134,8 @@ namespace our
             emissiveMap->bind();
         else
             Texture2D::unbind();
-        if (emissiveMapSampler)
-            emissiveMapSampler->bind(4);
+        if (albedoMapSampler)
+            albedoMapSampler->bind(4);
         else
             Sampler::unbind(4);
         shader->set("material.emissive_map", 4);
@@ -145,8 +145,8 @@ namespace our
             aoMap->bind();
         else
             Texture2D::unbind();
-        if (aoMapSampler)
-            aoMapSampler->bind(5);
+        if (albedoMapSampler)
+            albedoMapSampler->bind(5);
         else
             Sampler::unbind(5);
         shader->set("material.ambient_occlusion_map", 5);
@@ -159,7 +159,7 @@ namespace our
         TexturedMaterial::deserialize(data);
         if (!data.is_object())
             return;
-        albedoMap = AssetLoader<Texture2D>::get(data.value("albedoMap", "white"));
+        albedoMap = AssetLoader<Texture2D>::get(data.value("albedoMap", "black"));
         specularMap = AssetLoader<Texture2D>::get(data.value("specularMap", "black"));
         roughnessMap = AssetLoader<Texture2D>::get(data.value("roughnessMap", "black"));
         emissiveMap = AssetLoader<Texture2D>::get(data.value("emissiveMap", "black"));

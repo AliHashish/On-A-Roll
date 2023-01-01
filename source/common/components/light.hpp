@@ -30,7 +30,7 @@ namespace our {
     // angle for spot lights
     struct Angle {
         float inner = 0.0f;
-        float outer = 0.0f;
+        float outer = 0.1f;
     };
 
     // This component denotes that any renderer should draw the scene relative to this camera.
