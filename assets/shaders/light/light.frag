@@ -69,22 +69,17 @@ out vec4 frag_color;
 void main() {
     // First, we sample the material at the current pixel.
     Material sampled;
-        // Albedo is used to sample the diffuse
-    sampled.diffuse =texture(material.albedo_map, fsin.tex_coord).rgb;
-    // Specular is used to sample the specular... obviously
+    sampled.diffuse =texture(material.albedo_map, fsin.tex_coord).rgb;      // Albedo is used to sample the diffuse
     sampled.specular = texture(material.specular_map, fsin.tex_coord).rgb;
-    // sampled.specular = vec3(1.0f,0.0f,0.0);
-    // Emissive is used to sample the Emissive... once again "obviously"
     sampled.emissive = texture(material.emissive_map, fsin.tex_coord).rgb;
-    // Ambient is computed by multiplying the diffuse by the ambient occlusion factor. This allows occluded crevices to look darker.
     sampled.ambient = sampled.diffuse * texture(material.ambient_occlusion_map, fsin.tex_coord).r;
+    // Ambient is computed by multiplying the diffuse by the ambient occlusion factor. This allows occluded crevices to look darker.
 
     // Roughness is used to compute the shininess (specular power).
     float roughness =  texture(material.roughness_map, fsin.tex_coord).r;
 
     // It is noteworthy that we clamp the roughness to prevent its value from ever becoming 0 or 1 to prevent lighting artifacts.
     sampled.shininess = 2.0f/pow(clamp(roughness, 0.001f, 0.999f), 4.0f) - 2.0f;
-    // sampled.shininess = 1.0f;
 
     // Then we normalize the normal and the view. These are done once and reused for every light type.
     vec3 normal = normalize(fsin.normal); // Although the normal was already normalized, it may become shorter during interpolation.

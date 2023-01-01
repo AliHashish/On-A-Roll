@@ -29,20 +29,13 @@ namespace our
                 // Check if the camera component exists
                 if(camera){
                     // printing camera rotation
-                    // std::cout << "Camera rotation: " << entity->localTransform.rotation.x << ", " << entity->localTransform.rotation.y << ", " << entity->localTransform.rotation.z << " ";
                     // Notice that angles are in radian
 
                     // printing camera position
-                    // std::cout << " Camera position: " << entity->localTransform.position.x << ", " << entity->localTransform.position.y << ", " << entity->localTransform.position.z; //<< std::endl;
-
-
-                    // std::cout << "-90: " << ((-450%360)+360)%360 << ", 90: " << ((450%360)+360)%360 << std::endl;
 
 
                     // deserialize camera to get its components
                     // entity->deserialize();
-
-                    // std::cout << " New x: " << entity->localTransform.position.x - 8 * glm::sin(entity->localTransform.rotation.y) << " , New y: " <<  entity->localTransform.position.z - 8 * glm::cos(entity->localTransform.rotation.y) << std::endl;
 
                     // We will now handle 'physics collisions' through coordinates
                     // std::cout << "Camera position: " << entity->localTransform.position.x << ", " << entity->localTransform.position.y << ", " << entity->localTransform.position.z - 8 << std::endl;

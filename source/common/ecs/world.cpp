@@ -19,17 +19,7 @@ namespace our {
                 deserialize( entityData["children"], newEntity);
             }
             if(entityData.contains("components") && entityData["components"][0].contains("mesh") && entityData["components"][0]["mesh"] == "plane")
-            {
-                // std::cout << entityData << std::endl << std::endl;
-                // std::cout << entityData["components"] << std::endl << std::endl;
-                // std::cout << entityData["components"][0] << std::endl << std::endl;
-                // std::cout << entityData["components"][0].contains("mesh") << std::endl << std::endl;
-                // std::cout << entityData["components"][0]["mesh"] << std::endl << std::endl;
-                // if(entityData.contains("components") && entityData["components"].contains("mesh"))
-                // {
-                //     std::cout << "\n\nplatform added\n\n" << std::endl;
-                // }
-                
+            {                
                 
                 // std::cout << "//////////////////platform number " << c << "//////////////////////" << std::endl;
                 // PlatformRectangles.push_back(newEntity);
@@ -38,8 +28,7 @@ namespace our {
                 // Coordinates of the origin of the rectangle
                 float x = entityData["position"][0];
                 float y = entityData["position"][2];
-                // std::cout << "x: " << x << std::endl;
-                // std::cout << "y: " << y << std::endl;
+
                 // Width and height of the rectangle
                 float width = entityData["scale"][0];
                 float height = entityData["scale"][1];
@@ -50,9 +39,6 @@ namespace our {
                 // el awl, b3deeha hrg3 a3ml el steps el 3adya b2a
                 if (entityData["rotation"][1] == 90)
                 {
-                    // float temp = width;
-                    // width = height;
-                    // height = temp;
                     std::swap(width, height);
                 }
 
@@ -60,11 +46,6 @@ namespace our {
                 y += height;
                 width *= 2;
                 height *= 2;
-                // std::cout << "x: " << x << std::endl;
-                // std::cout << "y: " << y << std::endl;
-                // std::cout << "width: " << width << std::endl;
-                // std::cout << "height: " << height << std::endl;
-                // std::cout << "id: " << c << std::endl;
 
                 Rectangle R(x, y, width, height);
                 PlatformRectangles.push_back(R);
@@ -91,8 +72,7 @@ namespace our {
                 
                 Rectangle R(x, y, width, height);
                 WinningRectangle = R;
-                // std::cout << "Winning Rectangle Placed: " << WinningRectangle.x << " " << WinningRectangle.y << " ";
-                // std::cout << WinningRectangle.width << " " << WinningRectangle.height << std::endl;
+
             }
         }
     }

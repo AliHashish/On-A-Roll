@@ -84,25 +84,15 @@ namespace our
 
     void LitMaterial::setup() const
     {
-        TexturedMaterial::setup();
-        // glActiveTexture(GL_TEXTURE0);
-        // if (texture)
-        //     texture->bind();
-        // else
-        //     Texture2D::unbind();
-        // if (sampler)
-        //     sampler->bind(0);
-        // else
-        //     Sampler::unbind(0);
-        // shader->set("tex", 0);
+        Material::setup();
 
         glActiveTexture(GL_TEXTURE1);
         if (albedoMap)
             albedoMap->bind();
         else
             Texture2D::unbind();
-        if (albedoMapSampler)
-            albedoMapSampler->bind(1);
+        if (MapSampler)
+            MapSampler->bind(1);
         else
             Sampler::unbind(1);
         shader->set("material.albedo_map", 1);
@@ -112,8 +102,8 @@ namespace our
             specularMap->bind();
         else
             Texture2D::unbind();
-        if (albedoMapSampler)
-            albedoMapSampler->bind(2);
+        if (MapSampler)
+            MapSampler->bind(2);
         else
             Sampler::unbind(2);
         shader->set("material.specular_map", 2);
@@ -123,8 +113,8 @@ namespace our
             roughnessMap->bind();
         else
             Texture2D::unbind();
-        if (albedoMapSampler)
-            albedoMapSampler->bind(3);
+        if (MapSampler)
+            MapSampler->bind(3);
         else
             Sampler::unbind(3);
         shader->set("material.roughness_map", 3);
@@ -134,8 +124,8 @@ namespace our
             emissiveMap->bind();
         else
             Texture2D::unbind();
-        if (albedoMapSampler)
-            albedoMapSampler->bind(4);
+        if (MapSampler)
+            MapSampler->bind(4);
         else
             Sampler::unbind(4);
         shader->set("material.emissive_map", 4);
@@ -145,18 +135,18 @@ namespace our
             aoMap->bind();
         else
             Texture2D::unbind();
-        if (albedoMapSampler)
-            albedoMapSampler->bind(5);
+        if (MapSampler)
+            MapSampler->bind(5);
         else
             Sampler::unbind(5);
         shader->set("material.ambient_occlusion_map", 5);
 
     }
 
-    // This function read the LitMaterial data from a json object
+    // This function reads the LitMaterial data from a json object
     void LitMaterial::deserialize(const nlohmann::json &data)
     {
-        TexturedMaterial::deserialize(data);
+        Material::deserialize(data);
         if (!data.is_object())
             return;
         albedoMap = AssetLoader<Texture2D>::get(data.value("albedoMap", "black"));

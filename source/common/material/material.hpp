@@ -60,19 +60,15 @@ namespace our
         void deserialize(const nlohmann::json &data) override;
     };
 
-    class LitMaterial : public TexturedMaterial
+    class LitMaterial : public Material
     {
     public:
         Texture2D *albedoMap;
-        Sampler* albedoMapSampler;
         Texture2D *specularMap;
-        Sampler* specularMapSampler;
         Texture2D *roughnessMap;
-        Sampler* roughnessMapSampler;
         Texture2D *emissiveMap;
-        Sampler* emissiveMapSampler;
         Texture2D *aoMap;
-        Sampler* aoMapSampler;
+        Sampler* MapSampler;
 
         void setup() const override;
         void deserialize(const nlohmann::json &data) override;
